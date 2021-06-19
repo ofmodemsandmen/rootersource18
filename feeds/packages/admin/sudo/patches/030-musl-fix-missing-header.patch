@@ -1,0 +1,11 @@
+--- a/include/sudo_util.h
++++ b/include/sudo_util.h
+@@ -33,6 +33,8 @@
+ # endif
+ #endif
+ 
++#include <sys/types.h>
++
+ /*
+  * Macros for operating on struct timeval.
+  */

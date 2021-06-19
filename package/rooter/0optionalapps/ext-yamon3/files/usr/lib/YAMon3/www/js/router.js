@@ -1,0 +1,5 @@
+var installed='2019-11-23 01:44:23'
+var updated=''
+var router='Turris Omnia armada-385-turris-omnia'
+var firmware='DISTRIB_DESCRIPTION="GoldenOrb_2019-11-21 ( OpenWrt 18.06.4 )"  '
+var version='3.4.7'

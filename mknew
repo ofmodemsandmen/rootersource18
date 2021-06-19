@@ -1,0 +1,986 @@
+#!/bin/sh
+
+# automatic build maker
+
+#build version
+
+configfix() {
+	DNS=$(cat "./.config" | grep "CONFIG_PACKAGE_dnsmasq-full=y")
+	if [ ! -z $DNS ]; then
+		sed -i -e 's/CONFIG_PACKAGE_dnsmasq=y/# CONFIG_PACKAGE_dnsmasq is not set/g' ./.config
+	fi
+	WPAD=$(cat "./.config" | grep "CONFIG_PACKAGE_wpad=y")
+	if [ ! -z $WPAD ]; then
+		sed -i -e 's/CONFIG_PACKAGE_wpad-mini=y/# CONFIG_PACKAGE_wpad-mini is not set/g' ./.config
+	fi
+}
+
+DATE=$(date +%Y-%m-%d)
+
+NAME="GoldenOrb_"
+CODE=$NAME$DATE
+rm -rf ./bin
+rm -rf ./files
+mkdir -p ./files/etc
+
+echo 'CODENAME="'"$CODE"'"' > ./files/etc/codename
+
+echo "                            <model>" > ./files/etc/header_msg
+echo "/img/header.png" >> ./files/etc/header_msg
+echo "/img/rosy.png" >> ./files/etc/header_msg
+echo "/img/tomato.png" >> ./files/etc/header_msg
+
+BASE="openwrt-"
+BASEO="openwrt-ar71xx-generic-tl-"
+BASEQ="openwrt-ar71xx-generic-"
+ENDO="-squashfs-factory"
+ENDU="-squashfs-sysupgrade"
+
+TYP="-GO"
+END=$TYP$DATE
+
+# AR750
+
+cp ./configfiles/16meg/.config_ar750 ./.config
+configfix
+make V=s
+
+MOD="gl-ar750"
+EXTB=".bin"
+
+ORIG=$BASEQ$MOD$ENDU$EXTB
+FIRM=$BASE$MOD$END$EXTB
+cp ./bin/targets/ar71xx/generic/$ORIG ./images/$FIRM
+cd ./images
+zip $MOD$END.zip $FIRM
+rm -f $FIRM
+cd ..
+
+exit 0
+
+MOD="CF-E3"
+EXTB=".bin"
+
+echo "Comfast CF-E3" > ./files/etc/custom
+echo "Comfast CF-E3" >> ./files/etc/custom
+echo "ROOter" >> ./files/etc/custom
+
+
+cp ./configfiles/16meg/.config_cfe3 ./.config
+configfix
+make V=s
+
+ORIG=openwrt-ar71xx-generic-ap143-8M-squashfs-sysupgrade.bin
+FIRM=$BASE$MOD$END$EXTB
+cp ./bin/targets/ar71xx/generic/$ORIG ./images/$FIRM
+cd ./images
+zip -r $MOD$END.zip $FIRM 
+rm -f $FIRM
+cd ..
+
+exit 0
+
+# WR703N-16
+
+cp ./configfiles/vermagic/kernel-defaults-ar71xx-tiny.mk ./include/kernel-defaults.mk
+cp ./configfiles/16meg/.config_703 ./.config
+configfix
+make V=s
+
+MOD="WR703N-16M"
+EXTB=".bin"
+
+ORIG=openwrt-ar71xx-tiny-tl-wr703n-v1-squashfs-sysupgrade.bin
+FIRM=$BASE$MOD$END-upgrade$EXTB
+cp ./bin/targets/ar71xx/tiny/$ORIG ./images/$FIRM
+cd ./images
+zip $MOD$END.zip $FIRM
+rm -f $FIRM
+cd ..
+cp ./configfiles/vermagic/kernel-defaults-orig.mk ./include/kernel-defaults.mk
+
+exit 0
+
+#cp ./configfiles/vermagic/kernel-defaultsipq80.mk ./include/kernel-defaults.mk
+cp ./configfiles/16meg/.config_7800 ./.config
+configfix
+make V=s
+
+MOD="R7800"
+EXTB="-factory.img"
+EXTB1="-update.bin"
+
+ORIG=openwrt-ipq806x-netgear_r7800-squashfs-factory.img
+FIRM=$BASE$MOD$END$EXTB
+ORIG1=openwrt-ipq806x-netgear_r7800-squashfs-sysupgrade.bin
+FIRM1=$BASE$MOD$END$EXTB1
+cp ./bin/targets/ipq806x/generic/$ORIG ./images/$FIRM
+cp ./bin/targets/ipq806x/generic/$ORIG1 ./images/$FIRM1
+cp ./configfiles/Generic/readme.txt ./images/readme.txt
+cd ./images
+zip $MOD$END.zip $FIRM $FIRM1 readme.txt
+rm -f $FIRM
+rm -f $FIRM1
+rm -f readme.txt
+cd ..
+#cp ./configfiles/vermagic/kernel-defaults-orig.mk ./include/kernel-defaults.mk
+
+exit 0
+
+# RT-AC56U
+
+cp ./configfiles/broad/.config_ac56u ./.config
+configfix
+make V=s
+
+MOD="rt-ac56u"
+EXTB=".trx"
+
+ORIG="openwrt-bcm53xx-asus-rt-ac56u-squashfs.trx"
+FIRM=$BASE$MOD$END$EXTB
+cp ./bin/targets/bcm53xx/generic/$ORIG ./images/$FIRM
+cd ./images
+zip -r $MOD$END.zip $FIRM 
+rm -f $FIRM
+cd ..
+
+exit 0
+
+MOD="WE826-Q"
+EXTB=".bin"
+
+echo "ZBT WE826Q" > ./files/etc/custom
+echo "ZBT WE826Q" >> ./files/etc/custom
+echo "ROOter" >> ./files/etc/custom
+
+cp ./configfiles/vermagic/kernel-defaults-ar71xx-generic.mk ./include/kernel-defaults.mk
+cp ./configfiles/16meg/.config_826q ./.config
+configfix
+make V=s
+
+ORIG=openwrt-ar71xx-generic-ap147-010-squashfs-sysupgrade.bin
+FIRM=$BASE$MOD$END$EXTB
+cp ./bin/targets/ar71xx/generic/$ORIG ./images/$FIRM
+cd ./images
+zip -r $MOD$END.zip $FIRM 
+rm -f $FIRM
+cd ..
+cp ./configfiles/vermagic/kernel-defaults-orig.mk ./include/kernel-defaults.mk
+
+exit 0
+
+MOD="CR-WR822"
+EXTB=".bin"
+
+echo "Chaneve-CR-WR822" > ./files/etc/custom
+echo "Chaneve-CR-WR822" >> ./files/etc/custom
+echo "ROOter" >> ./files/etc/custom
+
+cp ./configfiles/vermagic/kernel-defaults7620.mk ./include/kernel-defaults.mk
+cp ./configfiles/8meg/.config_8305 ./.config
+configfix
+make V=s
+ORIG=openwrt-ramips-mt7620-zbt-wr8305rt-squashfs-sysupgrade.bin
+FIRM=$BASE$MOD$END-upgrade$EXTB
+cp ./bin/targets/ramips/mt7620/$ORIG ./images/$FIRM
+cd ./images
+zip $MOD$END.zip $FIRM
+rm -f $FIRM
+cd ..
+cp ./configfiles/vermagic/kernel-defaults-orig.mk ./include/kernel-defaults.mk
+
+exit 0
+
+cp ./configfiles/8meg/.config_8968 ./.config
+configfix
+make V=s
+
+MOD="TD-W8968"
+EXTB=".bin"
+
+ORIG=openwrt-brcm63xx-generic-FAST2704N-squashfs-cfe.bin
+FIRM=$BASE$MOD$END$EXTB
+cp ./bin/targets/brcm63xx/generic/$ORIG ./images/$FIRM
+cd ./images
+zip $MOD$END.zip $FIRM
+rm -f $FIRM
+cd ..
+exit 0
+
+
+echo "ZBT WG1608" > ./files/etc/custom
+echo "ZBT WG1608" >> ./files/etc/custom
+echo "ROOter" >> ./files/etc/custom
+
+cp ./configfiles/vermagic/kernel-defaults7621.mk ./include/kernel-defaults.mk
+cp ./configfiles/16meg/.config_1608 ./.config
+configfix
+cp ./configfiles/WG1608/ZBT-WG3526-256.dtsi ./target/linux/ramips/dts/ZBT-WG3526.dtsi
+
+make V=s
+
+MOD="WG1608"
+EXTB=".bin"
+
+ORIG=openwrt-ramips-mt7621-zbt-wg3526-16M-squashfs-sysupgrade.bin
+FIRM=$BASE$MOD$END-upgrade$EXTB
+cp ./bin/targets/ramips/mt7621/$ORIG ./images/$FIRM
+cd ./images
+zip $MOD$END.zip $FIRM
+rm -f $FIRM
+cd ..
+cp ./configfiles/WG1608/ZBT-WG3526-512.dtsi ./target/linux/ramips/dts/ZBT-WG3526.dtsi
+cp ./configfiles/vermagic/kernel-defaults-orig.mk ./include/kernel-defaults.mk
+
+exit 0
+
+MOD="WiFiX-NEXR5GO"
+EXTB=".bin"
+
+echo "WiFiX-NEXR5GO" > ./files/etc/custom
+echo "WiFiX-NEXR5GO" >> ./files/etc/custom
+echo "WiFiX" >> ./files/etc/custom
+
+cp ./configfiles/vermagic/kernel-defaults-ar71xx-generic.mk ./include/kernel-defaults.mk
+cp ./configfiles/LteFix/.config_rd05a1 ./.config
+configfix
+make V=s
+
+ORIG=openwrt-ar71xx-generic-ap147-010-squashfs-sysupgrade.bin
+FIRM=$BASE$MOD-19076$END$EXTB
+cp ./bin/targets/ar71xx/generic/$ORIG ./images/$FIRM
+cd ./images
+zip -r $MOD-19076$END.zip $FIRM 
+rm -f $FIRM
+cd ..
+cp ./configfiles/vermagic/kernel-defaults-orig.mk ./include/kernel-defaults.mk
+
+exit 0
+
+MOD="WiFiX-NEXR5GO"
+EXTB=".bin"
+
+echo "WiFiX-NEXR5GO" > ./files/etc/custom
+echo "WiFiX-NEXR5GO" >> ./files/etc/custom
+echo "WiFiX" >> ./files/etc/custom
+#cp ./configfiles/LteFix/mac80211lte.sh ./package/kernel/mac80211/files/lib/wifi/mac80211.sh
+
+cp ./configfiles/16meg/.config_rd05a1 ./.config
+configfix
+make V=s
+
+ORIG=openwrt-ar71xx-generic-ap147-010-squashfs-sysupgrade.bin
+FIRM=$BASE$MOD$END$EXTB
+cp ./bin/targets/ar71xx/generic/$ORIG ./images/$FIRM
+cd ./images
+zip -r $MOD$END.zip $FIRM 
+rm -f $FIRM
+cd ..
+#cp ./configfiles/LteFix/mac80211.sh ./package/kernel/mac80211/files/lib/wifi/mac80211.sh
+
+exit 0
+
+
+
+# WRT1900ACSv2
+
+cp ./configfiles/16meg/.config_1900acs ./.config
+configfix
+make V=s
+
+MOD="WRT1900ACS"
+EXTB="-factory.img"
+EXTB1="-upgrade.bin"
+
+ORIG="openwrt-mvebu-cortexa9-linksys-wrt1900acs-squashfs-factory.img"
+ORIG1="openwrt-mvebu-cortexa9-linksys-wrt1900acs-squashfs-sysupgrade.bin"
+FIRM=$BASE$MOD$END$EXTB
+FIRM1=$BASE$MOD$END$EXTB1
+cp ./bin/targets/mvebu/cortexa9/$ORIG ./images/$FIRM
+cp ./bin/targets/mvebu/cortexa9/$ORIG1 ./images/$FIRM1
+cp ./configfiles/Generic/readme.txt ./images/readme.txt
+cd ./images
+zip -r $MOD$END.zip $FIRM $FIRM1 readme.txt
+rm -f $FIRM
+rm -f $FIRM1
+rm -f readme.txt
+cd ..
+
+exit 0
+
+cp ./configfiles/16meg/.config_mifi ./.config
+configfix
+make V=s
+
+MOD="gl-mifi"
+EXTB=".bin"
+
+ORIG=$BASEQ$MOD$ENDU$EXTB
+FIRM=$BASE$MOD$END-upgrade$EXTB
+cp ./bin/targets/ar71xx/generic/$ORIG ./images/$FIRM
+cp ./configfiles/GL/readme.txt ./images/readme.txt
+cd ./images
+zip $MOD$END.zip $FIRM readme.txt
+rm -f $FIRM
+rm -f readme.txt
+cd ..
+
+exit 0
+
+# RT-AC51U
+
+cp ./configfiles/16meg/.config_ac51us ./.config
+configfix
+make -j5 V=s
+
+MOD="rt-ac51u"
+EXTB=".bin"
+
+ORIG=openwrt-ramips-mt7620-rt-ac51u-squashfs-sysupgrade.bin
+FIRM=$BASE$MOD$END-upgrade$EXTB
+cp ./bin/targets/ramips/mt7620/$ORIG ./images/$FIRM
+cd ./images
+zip $MOD$END.zip $FIRM
+rm -f $FIRM
+cd ..
+
+exit 0
+
+
+
+# Raspberry Pi3
+
+cp ./configfiles/16meg/.config_rpi3 ./.config
+configfix
+make V=s
+
+MOD1="RaspberryPi3"
+EXTB1=".img"
+
+ORIG1="openwrt-brcm2708-bcm2710-rpi-3-ext4-factory.img.gz"
+ORIG2="openwrt-brcm2708-bcm2710-rpi-3-ext4-factory.img"
+FIRM1=$BASE$MOD1$END-iphone$EXTB1
+
+cp ./bin/targets/brcm2708/bcm2710/$ORIG1 ./images/$ORIG1
+cd ./images
+gunzip $ORIG1
+mv $ORIG2 $FIRM1
+zip -r $MOD1$END-iphone.zip $FIRM1
+rm -f $FIRM1
+cd ..
+
+exit 0
+
+cp ./configfiles/16meg/.config_b1300 ./.config
+configfix
+make V=s
+
+MOD="GL-B1300"
+EXTB=".bin"
+
+ORIG=openwrt-ipq40xx-generic-glinet_gl-b1300-squashfs-sysupgrade.bin
+FIRM="openwrt-"$MOD$END-upgrade-iphone$EXTB
+FIRM1="lede-gl-b1300.bin"
+cp ./bin/targets/ipq40xx/generic/$ORIG ./images/$FIRM
+cp ./bin/targets/ipq40xx/generic/$ORIG ./images/$FIRM1
+cp ./configfiles/GL/readme.txt ./images/readme.txt
+cd ./images
+zip $MOD$END-iphone.zip $FIRM $FIRM1 readme.txt
+rm -f $FIRM
+rm -f $FIRM1
+rm -f readme.txt
+cd ..
+
+exit 0
+
+
+MOD="WE826-Q"
+EXTB=".bin"
+
+echo "ZBT WE826Q" > ./files/etc/custom
+echo "ZBT WE826Q" >> ./files/etc/custom
+echo "ROOter" >> ./files/etc/custom
+
+cp ./configfiles/16meg/.config_826q ./.config
+configfix
+make V=s
+
+ORIG=openwrt-ar71xx-generic-ap147-010-squashfs-sysupgrade.bin
+FIRM=$BASE$MOD$END$EXTB
+cp ./bin/targets/ar71xx/generic/$ORIG ./images/$FIRM
+cd ./images
+zip -r $MOD$END.zip $FIRM 
+rm -f $FIRM
+cd ..
+
+exit 0
+
+MOD="we826"
+EXTB=".bin"
+
+cp ./configfiles/16meg/.config_826 ./.config
+configfix
+make V=s
+ORIG=openwrt-ramips-mt7620-zbt-we826-16M-squashfs-sysupgrade.bin
+FIRM=$BASE$MOD$END-upgrade$EXTB
+cp ./bin/targets/ramips/mt7620/$ORIG ./images/$FIRM
+cd ./images
+zip $MOD$END.zip $FIRM
+rm -f $FIRM
+cd ..
+
+exit 0
+
+# RT-13U
+
+MOD="rt-n13u-b1"
+EXTB=".bin"
+
+cp ./configfiles/8meg/.config_n13u_s ./.config
+configfix
+make V=s
+ORIG1="openwrt-ramips-rt305x-rt-n13u-squashfs-sysupgrade.bin"
+FIRM1=$BASE$MOD$END-samba$EXTB
+cp ./bin/targets/ramips/rt305x/$ORIG1 ./images/$FIRM1
+
+cp ./configfiles/8meg/.config_n13u_v ./.config
+configfix
+make V=s
+ORIG11="openwrt-ramips-rt305x-rt-n13u-squashfs-sysupgrade.bin"
+FIRM11=$BASE$MOD$END-vpn$EXTB
+cp ./bin/targets/ramips/rt305x/$ORIG11 ./images/$FIRM11
+
+cp ./configfiles/RT13U/tftp2.exe ./images/tftp2.exe
+cp ./configfiles/RT13U/Flashing_an_Asus_RT-N13U_Router.pdf ./images/Flashing_an_Asus_RT-N13U_Router.pdf
+cp ./configfiles/8meg/8meg.txt ./images/8meg.txt
+cd ./images
+zip $MOD$END.zip $FIRM1 $FIRM11 tftp2.exe Flashing_an_Asus_RT-N13U_Router.pdf 8meg.txt
+rm -f $FIRM1
+rm -f $FIRM11
+rm -f tftp2.exe
+rm -f Flashing_an_Asus_RT-N13U_Router.pdf
+rm -f 8meg.txt
+cd ..
+
+
+exit 0
+
+cp ./configfiles/16meg/.config_rbm33 ./.config
+configfix
+make V=s
+
+MOD="RBM33G"
+EXTB=".bin"
+
+ORIG=openwrt-ramips-mt7621-mikrotik_rbm33g-initramfs-kernel.bin
+FIRM=$BASE$MOD$END-factory$EXTB
+ORIG1=openwrt-ramips-mt7621-mikrotik_rbm33g-squashfs-sysupgrade.bin
+FIRM1=$BASE$MOD$END-upgrade$EXTB
+cp ./bin/targets/ramips/mt7621/$ORIG ./images/$FIRM
+cp ./bin/targets/ramips/mt7621/$ORIG1 ./images/$FIRM1
+cp ./configfiles/Generic/readme.txt ./images/readme.txt
+cd ./images
+zip $MOD$END.zip $FIRM $FIRM1 readme.txt
+rm -f $FIRM
+rm -f $FIRM1
+rm -f readme.txt
+cd ..
+
+
+exit 0
+
+MOD="we826"
+EXTB=".bin"
+
+cp ./configfiles/16meg/.config_826 ./.config
+configfix
+make V=s
+ORIG=openwrt-ramips-mt7620-zbt-we826-16M-squashfs-sysupgrade.bin
+FIRM=$BASE$MOD$END-upgrade$EXTB
+cp ./bin/targets/ramips/mt7620/$ORIG ./images/$FIRM
+cd ./images
+zip $MOD$END.zip $FIRM
+rm -f $FIRM
+cd ..
+
+exit 0
+
+cp ./configfiles/broad/.config_r6300v1 ./.config
+configfix
+make V=s
+
+MOD="R6300v1"
+EXTB=".trx"
+
+ORIG="openwrt-brcm47xx-mips74k-standard-noloader-nodictionarylzma-squashfs.trx"
+FIRM=$BASE$MOD$END$EXTB
+cp ./bin/targets/brcm47xx/mips74k/$ORIG ./images/$FIRM
+cd ./images
+zip -r $MOD$END.zip $FIRM 
+rm -f $FIRM
+cd ..
+
+exit 0
+
+
+cp ./configfiles/16meg/.config_opi0 ./.config
+configfix
+make V=s
+
+MOD1="OrangePiZeroPlus"
+EXTB1=".img"
+
+ORIG1="openwrt-sunxi-cortexa53-sun50i-h5-orangepi-zero-plus-ext4-sdcard.img.gz"
+ORIG2="openwrt-sunxi-cortexa53-sun50i-h5-orangepi-zero-plus-ext4-sdcard.img"
+FIRM1=$BASE$MOD1$END-factory$EXTB1
+
+cp ./bin/targets/sunxi/cortexa53/$ORIG1 ./images/$ORIG1
+cd ./images
+gunzip $ORIG1
+mv $ORIG2 $FIRM1
+zip -r $MOD1$END.zip $FIRM1
+rm -f $FIRM1
+cd ..
+
+exit 0
+
+
+
+MOD="rt-ac56u"
+EXTB=".trx"
+
+ORIG="openwrt-bcm53xx-asus-rt-ac56u-squashfs.trx"
+FIRM=$BASE$MOD$END$EXTB
+cp ./bin/targets/bcm53xx/generic/$ORIG ./images/$FIRM
+cd ./images
+zip -r $MOD$END.zip $FIRM 
+rm -f $FIRM
+cd ..
+
+exit 0
+
+
+MOD="Ravpower_WD03"
+EXTB=".bin"
+
+cp ./configfiles/8meg/.config_wd03 ./.config
+configfix
+make -j5 V=s
+ORIG=openwrt-ramips-mt7620-ravpower_wd03-squashfs-sysupgrade.bin
+FIRM=$BASE$MOD$END-upgrade$EXTB
+cp ./bin/targets/ramips/mt7620/$ORIG ./images/$FIRM
+cd ./images
+zip $MOD$END.zip $FIRM
+rm -f $FIRM
+cd ..
+
+exit 0
+
+# APU2C4
+
+cp ./configfiles/16meg/.config_apu2c4 ./.config
+configfix
+make -j5 V=s
+
+MOD="APU2C4"
+
+ORIG="openwrt-x86-64-combined-squashfs.img.gz"
+ORIG1="openwrt-x86-64-combined-squashfs.img"
+FIRM=$BASE$MOD$END.img
+cp ./bin/targets/x86/64/$ORIG ./images/$ORIG
+cd ./images
+gunzip $ORIG
+mv $ORIG1 $FIRM
+zip -r $MOD$END.zip $FIRM
+rm -f $FIRM
+rm -f $ORIG
+cd ..
+
+exit 0
+
+
+
+cp ./configfiles/8meg/.config_710 ./.config
+configfix
+make -j5 V=s
+
+MOD="wr710-2.1"
+EXTB="-factory.bin"
+EXTB1="-update.bin"
+
+ORIG="openwrt-ar71xx-generic-tl-wr710n-v2.1-squashfs-factory.bin"
+ORIG1="openwrt-ar71xx-generic-tl-wr710n-v2.1-squashfs-sysupgrade.bin"
+FIRM=$BASE$MOD$END$EXTB
+FIRM1=$BASE$MOD$END$EXTB1
+cp ./bin/targets/ar71xx/generic/$ORIG ./images/$FIRM
+cp ./bin/targets/ar71xx/generic/$ORIG1 ./images/$FIRM1
+cp ./configfiles/Generic/readme.txt ./images/readme.txt
+cd ./images
+zip -r $MOD$END.zip $FIRM $FIRM1 readme.txt
+rm -f $FIRM
+rm -f $FIRM1
+rm -f readme.txt
+cd ..
+
+exit 0
+
+cp ./configfiles/broad/.config_ac56u ./.config
+configfix
+make V=s
+
+MOD="rt-ac56u"
+EXTB=".trx"
+
+ORIG="openwrt-bcm53xx-asus-rt-ac56u-squashfs.trx"
+FIRM=$BASE$MOD$END$EXTB
+cp ./bin/targets/bcm53xx/generic/$ORIG ./images/$FIRM
+cd ./images
+zip -r $MOD$END.zip $FIRM 
+rm -f $FIRM
+cd ..
+
+exit 0
+
+cp ./configfiles/16meg/.config_ea4500 ./.config
+configfix
+make -j5 V=s
+
+MOD="ea4500"
+MOD1="e4200-v2"
+EXTB=".bin"
+EXTB1=".bin"
+
+ORIG="openwrt-kirkwood-linksys_viper-squashfs-factory.bin"
+FIRM=$BASE$MOD$END"-factory"$EXTB
+FIRM2=$BASE$MOD1$END"-factory"$EXTB
+ORIG1="openwrt-kirkwood-linksys_viper-squashfs-sysupgrade.bin"
+FIRM1=$BASE$MOD$END"-upgrade"$EXTB1
+FIRM3=$BASE$MOD1$END"-upgrade"$EXTB1
+cp ./bin/targets/kirkwood/generic/$ORIG ./images/$FIRM
+cp ./bin/targets/kirkwood/generic/$ORIG1 ./images/$FIRM1
+cp ./bin/targets/kirkwood/generic/$ORIG ./images/$FIRM2
+cp ./bin/targets/kirkwood/generic/$ORIG1 ./images/$FIRM3
+cp ./configfiles/Generic/readme.txt ./images/readme.txt
+cd ./images
+zip -r $MOD$END.zip $FIRM $FIRM1 readme.txt
+zip -r $MOD1$END.zip $FIRM2 $FIRM3 readme.txt
+rm -f $FIRM
+rm -f $FIRM1
+rm -f $FIRM2
+rm -f $FIRM3
+rm -f readme.txt
+cd ..
+
+exit 0
+
+MOD="mr3420v5"
+EXTB=".bin"
+
+cp ./configfiles/8meg/.config_3420v5_s ./.config
+configfix
+make -j5 V=s
+ORIG="openwrt-ramips-mt76x8-tplink_tl-mr3420-v5-squashfs-tftp-recovery.bin"
+FIRM=$BASE$MOD$END"-samba-tftp-recovery"$EXTB
+ORIG2="openwrt-ramips-mt76x8-tplink_tl-mr3420-v5-squashfs-sysupgrade.bin"
+FIRM2=$BASE$MOD$END"-samba-upgrade"$EXTB
+cp ./bin/targets/ramips/mt76x8/$ORIG ./images/$FIRM
+cp ./bin/targets/ramips/mt76x8/$ORIG2 ./images/$FIRM2
+
+cp ./configfiles/8meg/.config_3420v5_v ./.config
+configfix
+make -j5 V=s
+ORIG1="openwrt-ramips-mt76x8-tplink_tl-mr3420-v5-squashfs-tftp-recovery.bin"
+FIRM1=$BASE$MOD$END"-vpn-tftp-recovery"$EXTB
+ORIG21="openwrt-ramips-mt76x8-tplink_tl-mr3420-v5-squashfs-sysupgrade.bin"
+FIRM21=$BASE$MOD$END"-vpn-upgrade"$EXTB
+cp ./bin/targets/ramips/mt76x8/$ORIG1 ./images/$FIRM1
+cp ./bin/targets/ramips/mt76x8/$ORIG21 ./images/$FIRM21
+
+cp ./configfiles/8meg/8meg.txt ./images/8meg.txt
+cd ./images
+zip -r $MOD$END.zip $FIRM $FIRM2 $FIRM1 $FIRM21 8meg.txt
+rm -f $FIRM
+rm -f $FIRM2
+rm -f $FIRM1
+rm -f $FIRM21
+rm -f 8meg.txt
+cd ..
+
+exit 0
+
+cp ./configfiles/broad/.config_3500l ./.config
+configfix
+make -j5 V=s
+
+MOD="WNR3500Lv1"
+EXTB=".chk"
+ORIG=openwrt-brcm47xx-mips74k-netgear-wnr3500l-v1-na-squashfs.chk
+FIRM=$BASE$MOD$END-upgrade$EXTB
+cp ./bin/targets/brcm47xx/mips74k/$ORIG ./images/$FIRM
+cd ./images
+zip $MOD$END.zip $FIRM
+rm -f $FIRM
+cd ..
+
+
+exit 0
+
+echo "ZBT WG1608" > ./files/etc/custom
+echo "ZBT WG1608" >> ./files/etc/custom
+echo "ROOter" >> ./files/etc/custom
+cp ./configfiles/16meg/.config_3526 ./.config
+configfix
+make -j5 V=s
+
+MOD="WG1608"
+EXTB=".bin"
+
+ORIG=openwrt-ramips-mt7621-zbt-wg3526-16M-squashfs-sysupgrade.bin
+FIRM=$BASE$MOD$END-upgrade$EXTB
+cp ./bin/targets/ramips/mt7621/$ORIG ./images/$FIRM
+cd ./images
+zip $MOD$END.zip $FIRM
+rm -f $FIRM
+cd ..
+
+exit 0
+
+MOD="WiFiX-WE1326v5"
+EXTB=".bin"
+
+cp ./configfiles/16meg/.config_we1326v5 ./.config
+configfix
+make -j5 V=s
+
+ORIG=openwrt-ramips-mt7621-zbt-we1326v5-squashfs-sysupgrade.bin
+FIRM=$BASE$MOD$END-upgrade$EXTB
+cp ./bin/targets/ramips/mt7621/$ORIG ./images/$FIRM
+cd ./images
+zip $MOD-custom$END.zip $FIRM
+rm -f $FIRM
+cd ..
+
+exit 0
+
+
+
+MOD="we826"
+EXTB=".bin"
+
+cp ./configfiles/16meg/.config_826 ./.config
+
+DNS=$(cat "./.config" | grep "CONFIG_PACKAGE_dnsmasq-full=y")
+if [ ! -z $DNS ]; then
+	sed -i -e 's/CONFIG_PACKAGE_dnsmasq=y/# CONFIG_PACKAGE_dnsmasq is not set/g' ./.config
+fi
+WPAD=$(cat "./.config" | grep "CONFIG_PACKAGE_wpad-basic=y")
+if [ ! -z $WPAD ]; then
+	sed -i -e 's/CONFIG_PACKAGE_wpad-basic=y/# CONFIG_PACKAGE_wpad-basic is not set/g' ./.config
+fi
+WPAD=$(cat "./.config" | grep "CONFIG_PACKAGE_wpad=y")
+if [ ! -z $WPAD ]; then
+	sed -i -e 's/CONFIG_PACKAGE_wpad-mini=y/# CONFIG_PACKAGE_wpad-mini is not set/g' ./.config
+fi
+
+make -j5 V=s
+ORIG=openwrt-ramips-mt7620-zbt-we826-16M-squashfs-sysupgrade.bin
+FIRM=$BASE$MOD$END-upgrade$EXTB
+cp ./bin/targets/ramips/mt7620/$ORIG ./images/$FIRM
+cd ./images
+zip $MOD$END.zip $FIRM
+rm -f $FIRM
+cd ..
+
+exit 0
+
+MOD="RBM11G"
+EXTB=".bin"
+
+cp ./configfiles/16meg/.config_rbm11 ./.config
+
+DNS=$(cat "./.config" | grep "CONFIG_PACKAGE_dnsmasq-full=y")
+if [ ! -z $DNS ]; then
+	sed -i -e 's/CONFIG_PACKAGE_dnsmasq=y/# CONFIG_PACKAGE_dnsmasq is not set/g' ./.config
+fi
+WPAD=$(cat "./.config" | grep "CONFIG_PACKAGE_wpad-basic=y")
+if [ ! -z $WPAD ]; then
+	sed -i -e 's/CONFIG_PACKAGE_wpad-basic=y/# CONFIG_PACKAGE_wpad-basic is not set/g' ./.config
+fi
+WPAD=$(cat "./.config" | grep "CONFIG_PACKAGE_wpad=y")
+if [ ! -z $WPAD ]; then
+	sed -i -e 's/CONFIG_PACKAGE_wpad-mini=y/# CONFIG_PACKAGE_wpad-mini is not set/g' ./.config
+fi
+
+make -j5 V=s
+ORIG=openwrt-ramips-mt7621-mikrotik_rbm11g-initramfs-kernel.bin
+FIRM=$BASE$MOD$END-factory$EXTB
+ORIG1=openwrt-ramips-mt7621-mikrotik_rbm11g-squashfs-sysupgrade.bin
+FIRM1=$BASE$MOD$END-upgrade$EXTB
+cp ./bin/targets/ramips/mt7621/$ORIG ./images/$FIRM
+cp ./bin/targets/ramips/mt7621/$ORIG1 ./images/$FIRM1
+cp ./configfiles/Generic/readme.txt ./images/readme.txt
+cd ./images
+zip $MOD$END.zip $FIRM $FIRM1 readme.txt
+rm -f $FIRM
+rm -f $FIRM1
+rm -f readme.txt
+cd ..
+
+exit 0
+
+MOD="MR3020v3"
+EXTB=".bin"
+
+cp ./configfiles/8meg/.config_3020v3_s ./.config
+configfix
+make -j5 V=s
+ORIG="openwrt-ramips-mt76x8-tplink_tl-mr3020-v3-squashfs-tftp-recovery.bin"
+FIRM=$BASE$MOD$END"-samba-tftp-recovery"$EXTB
+ORIG2="openwrt-ramips-mt76x8-tplink_tl-mr3020-v3-squashfs-sysupgrade.bin"
+FIRM2=$BASE$MOD$END"-samba-upgrade"$EXTB
+cp ./bin/targets/ramips/mt76x8/$ORIG ./images/$FIRM
+cp ./bin/targets/ramips/mt76x8/$ORIG2 ./images/$FIRM2
+
+cp ./configfiles/8meg/.config_3020v3_v ./.config
+configfix
+make -j5 V=s
+ORIG1="openwrt-ramips-mt76x8-tplink_tl-mr3020-v3-squashfs-tftp-recovery.bin"
+FIRM1=$BASE$MOD$END"-vpn-tftp-recovery"$EXTB
+ORIG21="openwrt-ramips-mt76x8-tplink_tl-mr3020-v3-squashfs-sysupgrade.bin"
+FIRM21=$BASE$MOD$END"-vpn-upgrade"$EXTB
+cp ./bin/targets/ramips/mt76x8/$ORIG1 ./images/$FIRM1
+cp ./bin/targets/ramips/mt76x8/$ORIG21 ./images/$FIRM21
+
+cp ./configfiles/8meg/8meg.txt ./images/8meg.txt
+cd ./images
+zip -r $MOD$END.zip $FIRM $FIRM2 $FIRM1 $FIRM21 8meg.txt
+rm -f $FIRM
+rm -f $FIRM2
+rm -f $FIRM1
+rm -f $FIRM21
+rm -f 8meg.txt
+cd ..
+
+
+exit 0
+
+# RT-N56U
+
+MOD="rt-n56u"
+EXTB=".bin"
+
+cp ./configfiles/8meg/.config_n56u_s ./.config
+configfix
+make -j5 V=s
+ORIG2="openwrt-ramips-rt3883-rt-n56u-squashfs-sysupgrade.bin"
+FIRM2=$BASE$MOD$END"-samba"$EXTB
+cp ./bin/targets/ramips/rt3883/$ORIG2 ./images/$FIRM2
+
+cp ./configfiles/8meg/.config_n56u_v ./.config
+configfix
+make -j5 V=s
+ORIG21="openwrt-ramips-rt3883-rt-n56u-squashfs-sysupgrade.bin"
+FIRM21=$BASE$MOD$END"-vpn"$EXTB
+cp ./bin/targets/ramips/rt3883/$ORIG21 ./images/$FIRM21
+
+cp ./configfiles/Generic/readme.txt ./images/readme.txt
+cp ./configfiles/8meg/8meg.txt ./images/8meg.txt
+cd ./images
+zip $MOD$END.zip $FIRM2 $FIRM21 readme.txt 8meg.txt
+rm -f $FIRM2
+rm -f $FIRM21
+rm -f readme.txt
+rm -f 8meg.txt
+cd ..
+
+
+
+exit 0
+
+MOD="we826"
+EXTB=".bin"
+
+cp ./configfiles/.config_826 ./.config
+
+DNS=$(cat "./.config" | grep "CONFIG_PACKAGE_dnsmasq-full=y")
+if [ ! -z $DNS ]; then
+	sed -i -e 's/CONFIG_PACKAGE_dnsmasq=y/# CONFIG_PACKAGE_dnsmasq is not set/g' ./.config
+fi
+WPAD=$(cat "./.config" | grep "CONFIG_PACKAGE_wpad-basic=y")
+if [ ! -z $WPAD ]; then
+	sed -i -e 's/CONFIG_PACKAGE_wpad-basic=y/# CONFIG_PACKAGE_wpad-basic is not set/g' ./.config
+fi
+WPAD=$(cat "./.config" | grep "CONFIG_PACKAGE_wpad=y")
+if [ ! -z $WPAD ]; then
+	sed -i -e 's/CONFIG_PACKAGE_wpad-mini=y/# CONFIG_PACKAGE_wpad-mini is not set/g' ./.config
+fi
+
+make -j5 V=s
+ORIG=openwrt-ramips-mt7620-zbt-we826-16M-squashfs-sysupgrade.bin
+FIRM=$BASE$MOD$END-mosquitto-upgrade$EXTB
+cp ./bin/targets/ramips/mt7620/$ORIG ./images/$FIRM
+cd ./images
+zip $MOD$END-mosquitto.zip $FIRM
+rm -f $FIRM
+cd ..
+
+exit 0
+
+MOD1="RaspberryPi3"
+EXTB1=".img"
+
+cp ./configfiles/.config_rpi3 ./.config
+
+DNS=$(cat "./.config" | grep "CONFIG_PACKAGE_dnsmasq-full=y")
+if [ ! -z $DNS ]; then
+	sed -i -e 's/CONFIG_PACKAGE_dnsmasq=y/# CONFIG_PACKAGE_dnsmasq is not set/g' ./.config
+fi
+WPAD=$(cat "./.config" | grep "CONFIG_PACKAGE_wpad=y")
+if [ ! -z $WPAD ]; then
+	sed -i -e 's/CONFIG_PACKAGE_wpad-mini=y/# CONFIG_PACKAGE_wpad-mini is not set/g' ./.config
+fi
+
+make -j5 V=s
+ORIG1="openwrt-brcm2708-bcm2710-rpi-3-ext4-factory.img.gz"
+ORIG2="openwrt-brcm2708-bcm2710-rpi-3-ext4-factory.img"
+FIRM1=$BASE$MOD1$END$EXTB1
+cp ./bin/targets/brcm2708/bcm2710/$ORIG1 ./images/$ORIG1
+cd ./images
+gunzip $ORIG1
+mv $ORIG2 $FIRM1
+zip -r $MOD1$END.zip $FIRM1
+rm -f $FIRM1
+cd ..
+
+exit 0
+
+MOD="gl-ar300m"
+EXTB=".bin"
+
+cp ./configfiles/.config_ar300m ./.config
+
+DNS=$(cat "./.config" | grep "CONFIG_PACKAGE_dnsmasq-full=y")
+if [ ! -z $DNS ]; then
+	sed -i -e 's/CONFIG_PACKAGE_dnsmasq=y/# CONFIG_PACKAGE_dnsmasq is not set/g' ./.config
+fi
+WPAD=$(cat "./.config" | grep "CONFIG_PACKAGE_wpad=y")
+if [ ! -z $WPAD ]; then
+	sed -i -e 's/CONFIG_PACKAGE_wpad-mini=y/# CONFIG_PACKAGE_wpad-mini is not set/g' ./.config
+fi
+
+make -j5 V=s
+ORIG=$BASEQ$MOD$ENDU$EXTB
+FIRM=$BASE$MOD-16$END$EXTB
+cp ./bin/targets/ar71xx/generic/$ORIG ./images/$FIRM
+cd ./images
+zip $MOD-16$END.zip $FIRM
+rm -f $FIRM
+cd ..
+
+exit 0
+
+
+
+
+
+

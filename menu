@@ -1,0 +1,75 @@
+#!/bin/sh
+
+configout=$1
+flag=$2
+if [ ! -z $flag ]; then
+	if [ $flag = "-t" ]; then
+		configin=$3
+	else
+		configin=$2
+		flag=""
+	fi
+fi
+if [ -z $configin ]; then
+	configin=$configout
+fi
+
+
+direc=0
+rm -f ./.config
+if [ -z $configin ]; then
+	echo "No configuration "$fullconfig
+else
+	if [ -z $flag ]; then
+		fullconfig=".config_"$configin
+		if [ -e ./configfiles/8meg/$fullconfig ]; then
+			cp ./configfiles/8meg/$fullconfig ./.config
+			direc=1
+			echo "8meg configuration "$fullconfig
+		else
+			if [ -e ./configfiles/16meg/$fullconfig ]; then
+				cp ./configfiles/16meg/$fullconfig ./.config
+				direc=2
+				echo "16meg configuration "$fullconfig
+			else
+				rm -f ./.config
+				echo "No configuration "$fullconfig
+			fi
+		fi
+	else
+		if [ -e ./configfiles/template/16meg/$configin ]; then
+			cp ./configfiles/template/16meg/$configin ./.config
+			direc=2
+			echo "Template configuration "$configin
+		else
+			if [ -e ./configfiles/template/8meg/$configin ]; then
+				cp ./configfiles/template/8meg/$configin ./.config
+				direc=1
+				echo "Template configuration "$configin
+			else
+				rm -f ./.config
+				echo "No Template configuration "$fullconfig
+			fi
+		fi
+	fi
+fi
+
+make menuconfig
+
+fullconfig=".config_"$configout
+if [ ! -z $configout ]; then
+	if [ $direc -eq 0 ]; then
+		mv ./.config ./".config_"$configout
+		echo "Rename .config to .config_"$configout
+	else
+		if [ $direc -eq 1 ]; then
+			mv ./.config ./configfiles/8meg/$fullconfig 
+			echo "Rename and move .config as "$fullconfig" to 8meg"
+		else
+			mv ./.config ./configfiles/16meg/$fullconfig
+			echo "Rename and move .config as "$fullconfig" to 16meg"
+		fi
+	fi
+else
+	echo "No target for .config"
+fi

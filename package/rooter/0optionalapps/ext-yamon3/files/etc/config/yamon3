@@ -1,0 +1,4 @@
+config yamon3 'yamon3'
+	option enabled '0'
+
+config tmpyamon3 'tmpyamon3'

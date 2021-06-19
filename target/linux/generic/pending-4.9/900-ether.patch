@@ -1,0 +1,27 @@
+--- a/drivers/net/usb/cdc_ether.c
++++ b/drivers/net/usb/cdc_ether.c
+@@ -54,6 +54,13 @@
+ 		desc->bInterfaceProtocol == 3);
+ }
+ 
++static int is_novatel_rndis(struct usb_interface_descriptor *desc)
++{
++	return (desc->bInterfaceClass == USB_CLASS_MISC &&
++		desc->bInterfaceSubClass == 4 &&
++		desc->bInterfaceProtocol == 1);
++}
++
+ #else
+ 
+ #define is_rndis(desc)		0
+@@ -150,7 +157,8 @@
+ 	 */
+ 	rndis = (is_rndis(&intf->cur_altsetting->desc) ||
+ 		 is_activesync(&intf->cur_altsetting->desc) ||
+-		 is_wireless_rndis(&intf->cur_altsetting->desc));
++		 is_wireless_rndis(&intf->cur_altsetting->desc) ||
++		 is_novatel_rndis(&intf->cur_altsetting->desc));
+ 
+ 	memset(info, 0, sizeof(*info));
+ 	info->control = intf;
+

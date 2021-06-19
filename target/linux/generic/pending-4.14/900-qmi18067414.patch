@@ -1,0 +1,39 @@
+--- a/drivers/net/usb/qmi_wwan.c
++++ b/drivers/net/usb/qmi_wwan.c
+@@ -999,10 +999,18 @@
++#define QMI_MATCH_FF_FF_FF(vend, prod) \
++	USB_DEVICE_AND_INTERFACE_INFO(vend, prod, USB_CLASS_VENDOR_SPEC, \
++				      USB_SUBCLASS_VENDOR_SPEC, 0xff), \
++	.driver_info = (unsigned long)&qmi_wwan_info_quirk_dtr
++
+ 	{QMI_QUIRK_QUECTEL_DYNCFG(0x2c7c, 0x0125)},	/* Quectel EC25, EC20 R2.0  Mini PCIe */
+ 	{QMI_QUIRK_QUECTEL_DYNCFG(0x2c7c, 0x0306)},	/* Quectel EP06/EG06/EM06 */
+ 	{QMI_QUIRK_QUECTEL_DYNCFG(0x2c7c, 0x0512)},	/* Quectel EG12/EM12 */
++	{QMI_QUIRK_QUECTEL_DYNCFG(0x2c7c, 0x0620)},	/* Quectel EM20 */
++	{QMI_MATCH_FF_FF_FF(0x2c7c, 0x0800)},	/* Quectel RM500Q-GL */
+ 
+ 	/* 3. Combined interface devices matching on interface number */
+ 	{QMI_FIXED_INTF(0x0408, 0xea42, 4)},	/* Yota / Megafon M100-1 */
+ 	{QMI_FIXED_INTF(0x05c6, 0x6001, 3)},	/* 4G LTE usb-modem U901 */
++	{QMI_FIXED_INTF(0x05c6, 0x5042, 3)}, /* ME9215 */
+ 	{QMI_FIXED_INTF(0x05c6, 0x7000, 0)},
+ 	{QMI_FIXED_INTF(0x05c6, 0x7001, 1)},
+ 	{QMI_FIXED_INTF(0x05c6, 0x7002, 1)},
+@@ -1033,6 +1035,16 @@
+ 	{QMI_FIXED_INTF(0x05c6, 0x9021, 1)},
+ 	{QMI_FIXED_INTF(0x05c6, 0x9022, 2)},
+-	{QMI_FIXED_INTF(0x05c6, 0x9025, 4)},	/* Alcatel-sbell ASB TL131 TDD LTE  (China Mobile) */
++	{QMI_QUIRK_SET_DTR(0x05c6, 0x9025, 4)},	/* Alcatel-sbell ASB TL131 TDD LTE (China Mobile) */
++	{QMI_QUIRK_SET_DTR(0x03f0, 0x0857, 1)},
++	{QMI_QUIRK_SET_DTR(0x05c6, 0xf601, 5)},
++	{QMI_FIXED_INTF(0x0489, 0xe0b4, 0)},	/* Foxconn T77W968 LTE */
++	{QMI_FIXED_INTF(0x1bc7, 0x1910, 0)},	/* LN960 */
++	{QMI_FIXED_INTF(0x19d2, 0x1432, 3)},	/* ME3620-Z*/
++	{QMI_FIXED_INTF(0x413c, 0x81d7, 0)},
++	{QMI_FIXED_INTF(0x05c6, 0x90db, 2)},
++	{QMI_FIXED_INTF(0x2001, 0x7e3d, 4)},
++	{QMI_MATCH_FF_FF_FF(0x1508, 0x1001)},
++	{QMI_QUIRK_SET_DTR(0x1199, 0x90b1, 8)}, /* Sierra Wireless EM7511 */
+ 	{QMI_FIXED_INTF(0x05c6, 0x9026, 3)},
+ 	{QMI_FIXED_INTF(0x05c6, 0x902e, 5)},
+ 	{QMI_FIXED_INTF(0x05c6, 0x9031, 5)},
