@@ -17,8 +17,7 @@ define Package/ext-rooter-lite
 		+luci-app-ddns +ddns-scripts +ddns-scripts_no-ip_com \
 		+luci-app-rootervpn +ext-wireguard \
 		+luci-app-nlbwmon +bwmon \
-		+ext-theme +luci-theme-argon +argon-config \
-		+luci-theme-tomato +ext-material +ext-login \
+		+ext-theme +ext-material \
 		+ca-bundle +ca-certificates +libustream-openssl \
 		+luci-app-samba +usb-storage \
 		+ext-p910nd +luci-app-sqm +kmod-sched-cake \

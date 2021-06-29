@@ -50,7 +50,8 @@ dlURL=${ulURL%upload.php}
 size=750
 xdlURL=$dlURL"random"$size"x"$size".jpg"
 stime=$(($(date +%s%3N)))
-curl -Z -s -o /dev/null  $xdlURL --next -o /dev/null  $xdlURL
+wget-ssl -q --no-check-certificate -O /dev/null  $xdlURL
+wget-ssl -q --no-check-certificate -O /dev/null  $xdlURL
 ftime=$(($(date +%s%3N)))
 let "stime=$LATN + $stime"
 let "elapse=$ftime - $stime"
@@ -78,7 +79,10 @@ xdlURL=$dlURL"random"$size"x"$size".jpg"
 number=0
 while true; do
 	sxtime=$(($(date +%s%3N)))
-	curl -Z -s -o /dev/null  $xdlURL --next -o /dev/null  $xdlURL --next -o /dev/null  $xdlURL  --next -o /dev/null  $xdlURL
+	wget-ssl -q --no-check-certificate -O /dev/null  $xdlURL
+	wget-ssl -q --no-check-certificate -O /dev/null  $xdlURL
+	wget-ssl -q --no-check-certificate -O /dev/null  $xdlURL
+	wget-ssl -q --no-check-certificate -O /dev/null  $xdlURL
 	fxtime=$(($(date +%s%3N)))
 	let "sxtime=$LATN + $sxtime"
 	let "elapse=$fxtime - $sxtime"

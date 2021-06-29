@@ -12,7 +12,7 @@ echo "0" >> /tmp/getspeed
 echo "0" >> /tmp/getspeed
 echo "0" >> /tmp/getspeed
 echo "0" > /tmp/spworking
-wget -q -O /tmp/client http://speedtest.net/speedtest-config.php
+wget-ssl -q --no-check-certificate -O /tmp/client http://speedtest.net/speedtest-config.php
 if [ $? = "0" ]; then
 	RAW=$(cat /tmp/client)
 	clid=$(echo $RAW" " | grep -o "<client .\+ /> " | tr -d '"' | tr " " "," | tr "/" "," | tr "=" ",")
@@ -25,9 +25,9 @@ if [ $? = "0" ]; then
 	echo "$ip" >> /tmp/sinfo
 	echo "$isp" >> /tmp/sinfo
 	
-	wget -q -O /tmp/servers http://www.speedtest.net/speedtest-servers-static.php
+	wget-ssl -q --no-check-certificate -O /tmp/servers http://www.speedtest.net/speedtest-servers-static.php
 	if [ $? != "0" ]; then
-		wget -q -O /tmp/servers http://c.speedtest.net/speedtest-servers.php
+		wget-ssl -q --no-check-certificate -O /tmp/servers http://c.speedtest.net/speedtest-servers.php
 		if [ $? != "0" ]; then
 			echo "0" > /tmp/sinfo
 			exit 0
