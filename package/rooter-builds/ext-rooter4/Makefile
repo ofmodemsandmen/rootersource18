@@ -17,15 +17,16 @@ define Package/ext-rooter4
 		+ca-bundle +ca-certificates +libustream-openssl \
 		+luci-app-sqm +kmod-sched-cake \
 		+luci-app-ddns +ddns-scripts +ddns-scripts_no-ip_com \
-		+ext-command +ext-p910nd \
-		+luci-app-hotspot +ext-extra +luci-app-guestwifi \
+		+ext-command +ext-p910nd +luci-app-guestwifi \
+		+luci-app-mwan3 +luci-app-dnsmasq-ipset \
+		+luci-app-hotspot +ext-extra \
 		+picocom +wpad-mini +wget +nano
-  TITLE:=ROOter support for 4meg routers
+  TITLE:=install basic ROOter routers
   PKGARCH:=all
 endef
 
 define Package/ext-rooter4/description
-  Helper scripts to install ROOter on 4meg routers
+  Helper scripts to install basic ROOter routers
 endef
 
 define Build/Compile

@@ -16,11 +16,12 @@ define Package/ext-rooter-lite
   DEPENDS:=+luci +ext-rooter-basic \
 		+luci-app-ddns +ddns-scripts +ddns-scripts_no-ip_com \
 		+luci-app-rootervpn +ext-wireguard \
-		+luci-app-nlbwmon +bwmon \
-		+ext-theme +ext-material \
+		+webconsole +bwmon \
+		+ext-theme +luci-theme-argon +argon-config +ext-login \
+		+luci-theme-tomato +ext-material \
 		+ca-bundle +ca-certificates +libustream-openssl \
-		+luci-app-samba +usb-storage \
-		+ext-p910nd +luci-app-sqm +kmod-sched-cake \
+		+luci-app-ksmbd +usb-storage \
+		+ext-p910nd +luci-app-sqm +kmod-sched-cake +luci-app-nft-qos \
 		+ext-command +ext-speedtest +luci-app-guestwifi \
 		+openvpn-easy-rsa +openvpn-openssl \
 		+ext-extra +luci-app-hotspot +luci-app-wol \
@@ -36,10 +37,6 @@ endef
 
 
 define Build/Compile
-endef
-
-define Package/ext-rooter-lite/install
-	$(CP) ./files/* $(1)/
 endef
 
 $(eval $(call BuildPackage,ext-rooter-lite))

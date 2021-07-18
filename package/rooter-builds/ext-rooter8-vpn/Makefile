@@ -13,14 +13,14 @@ include $(INCLUDE_DIR)/package.mk
 define Package/ext-rooter8-vpn
   SECTION:=utils
   CATEGORY:=ROOter
-  DEPENDS:=+luci +ext-rooter4 \
+  DEPENDS:=+luci +ext-rooter4 +bwmon \
 		+luci-app-rootervpn +ext-wireguard 
-  TITLE:=ROOter support for 8meg routers with OpenVPN but w/o Samba
+  TITLE:=basic ROOter support for 8meg routers
   PKGARCH:=all
 endef
 
 define Package/ext-rooter8-vpn/description
-  Helper scripts to enable ROOter on 8meg routers with OpenVPN but w/o Samba
+  basic ROOter support for 8meg routers
 endef
 
 
