@@ -1,0 +1,18 @@
+{
+	"WR703N": {
+		"details": "TP-Link WR703N 16meg",
+		"type": "1",
+		"build": "1806",
+		"config": ".config_wr703n",
+		"image": "openwrt-ar71xx-tiny-tl-wr703n-v1-squashfs-sysupgrade.bin",
+		"imagepath": "/ar71xx/tiny/",
+		"mod": "TP-Link-WR703N-16meg",
+		"ext": "-upgrade.bin",
+		"addons": ["readme.pdf", "factory.txt"],
+		"custom": {
+			"name": {
+				"model": "TP-Link WR703N 16meg"
+			}
+		}
+	}
+}
