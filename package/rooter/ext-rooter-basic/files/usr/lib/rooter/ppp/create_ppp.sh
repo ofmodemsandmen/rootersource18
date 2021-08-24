@@ -179,7 +179,13 @@ uci commit modem
 log "Modem$CURRMODEM is using WAN$INTER"
 uci delete network.wan$INTER
 uci set network.wan$INTER=interface
-uci set network.wan$INTER.ifname=3x-wan$INTER
+source /etc/openwrt_release
+tone=$(echo "$DISTRIB_RELEASE" | grep "21.02")
+ifname="ifname"
+if [ ! -z $tone ]; then
+	ifname="device"
+fi
+uci set network.wan$INTER.$ifname=3x-wan$INTER
 uci set network.wan$INTER.proto=3x
 if [ $retval -eq 0 ]; then
 	uci set network.wan$INTER.service=umts
@@ -210,6 +216,10 @@ if [ $retval -eq 0 ]; then
 	esac
 	$ROOTER/common/lockchk.sh $CURRMODEM
 	$ROOTER/sms/check_sms.sh $CURRMODEM &
+fi
+
+if [ -e $ROOTER/modem-led.sh ]; then
+	$ROOTER/modem-led.sh $CURRMODEM 2
 fi
 
 rm -f /tmp/usbwait

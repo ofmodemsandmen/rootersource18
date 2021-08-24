@@ -55,7 +55,13 @@ set_network() {
 	uci delete network.wan$INTER
 	uci set network.wan$INTER=interface
 	uci set network.wan$INTER.proto=dhcp
-	uci set network.wan$INTER.ifname=$1
+	source /etc/openwrt_release
+	tone=$(echo "$DISTRIB_RELEASE" | grep "21.02")
+	ifname="ifname"
+	if [ ! -z $tone ]; then
+		ifname="device"
+	fi
+	uci set network.wan$INTER.$ifname=$1
 	uci set network.wan$INTER.metric=$INTER"0"
 	set_dns
 	uci commit network
@@ -181,8 +187,8 @@ ln -s $ROOTER/connect/conmon.sh $ROOTER_LINK/con_monitor$CURRMODEM
 $ROOTER_LINK/con_monitor$CURRMODEM $CURRMODEM &
 
 if [ -e $ROOTER/timezone.sh ]; then
-	TZ=$(uci get modem.modeminfo$CURRMODEM.tzone)
-	if [ $TZ = "1" ]; then
+	TZ=$(uci -q get modem.modeminfo$CURRMODEM.tzone)
+	if [ "$TZ" = "1" ]; then
 		log "Set TimeZone"
 		$ROOTER/timezone.sh &
 	fi

@@ -50,7 +50,7 @@ endef
 TARGET_DEVICES += tl-mr13u-v1
 
 define Device/tl-mr3020-v1
-  $(Device/tplink-4mlzma)
+  $(Device/tplink-8mlzma)
   DEVICE_TITLE := TP-LINK TL-MR3020 v1
   DEVICE_PACKAGES := kmod-usb-core kmod-usb2 kmod-usb-ledtrig-usbport
   BOARDNAME := TL-MR3020
