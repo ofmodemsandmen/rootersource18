@@ -19,7 +19,7 @@
  	{QMI_FIXED_INTF(0x05c6, 0x7000, 0)},
  	{QMI_FIXED_INTF(0x05c6, 0x7001, 1)},
  	{QMI_FIXED_INTF(0x05c6, 0x7002, 1)},
-@@ -1033,6 +1035,17 @@
+@@ -1033,6 +1035,18 @@
  	{QMI_FIXED_INTF(0x05c6, 0x9021, 1)},
  	{QMI_FIXED_INTF(0x05c6, 0x9022, 2)},
 -	{QMI_FIXED_INTF(0x05c6, 0x9025, 4)},	/* Alcatel-sbell ASB TL131 TDD LTE  (China Mobile) */
@@ -35,6 +35,7 @@
 +	{QMI_MATCH_FF_FF_FF(0x1508, 0x1001)},
 +	{QMI_QUIRK_SET_DTR(0x1199, 0x90b1, 8)}, /* Sierra Wireless EM7511 */
 +	{QMI_FIXED_INTF(0x2dee, 0x4d22, 5)},
++	{QMI_FIXED_INTF(0x161c, 0x9115, 4)},
  	{QMI_FIXED_INTF(0x05c6, 0x9026, 3)},
  	{QMI_FIXED_INTF(0x05c6, 0x902e, 5)},
  	{QMI_FIXED_INTF(0x05c6, 0x9031, 5)},
