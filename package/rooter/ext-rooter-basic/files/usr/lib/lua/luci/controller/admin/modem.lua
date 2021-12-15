@@ -169,6 +169,15 @@ function action_check_misc()
 				rv["pci"] = "0"
 			end
 			
+			rv["earfcn1"] = luci.model.uci.cursor():get("custom", "bandlock", "earfcn1")
+			if rv["earfcn1"] == nil then
+				rv["earfcn1"] = "0"
+			end
+			rv["pci1"] = luci.model.uci.cursor():get("custom", "bandlock", "pci1")
+			if rv["pci1"] == nil then
+				rv["pci1"] = "0"
+			end
+			
 			file = io.open("/tmp/bmask", "r")
 			if file == nil then
 				rv["bndstr"] = "0"
@@ -505,7 +514,7 @@ end
 function action_externalip()
 	local rv ={}
 
-	os.execute("rm -f /tmp/ipip; wget-ssl --no-check-certificate -O /tmp/ipip https://ipecho.net/plain > /dev/null 2>&1")
+	os.execute("rm -f /tmp/ipip; wget -ssl --no-check-certificate -O /tmp/ipip https://ipecho.net/plain > /dev/null 2>&1")
 	file = io.open("/tmp/ipip", "r")
 	if file == nil then
 		rv["extip"] = "Not Available"
