@@ -20,13 +20,13 @@ define Package/ext-rooter-lite
 		+ext-theme +luci-theme-argon +argon-config +ext-login \
 		+luci-theme-tomato +ext-material \
 		+ca-bundle +ca-certificates +libustream-openssl \
-		+luci-app-ksmbd +usb-storage \
+		+luci-app-samba +usb-storage \
 		+ext-p910nd +luci-app-sqm +kmod-sched-cake +luci-app-nft-qos \
 		+ext-command +ext-speedtest +luci-app-guestwifi \
 		+openvpn-easy-rsa +openvpn-openssl \
 		+ext-extra +luci-app-hotspot +luci-app-wol \
 		+usbmuxd +libusbmuxd-utils +libimobiledevice-utils +kmod-usb-net-ipheth \
-		+nano +picocom +wpad +wget +qfirehose 
+		+nano +picocom +wpad +wget +qfirehose +luci-app-vpnbypass
   TITLE:=ROOter support w/o MWan3 for 16meg and larger routers w/o MWan3
   PKGARCH:=all
 endef
