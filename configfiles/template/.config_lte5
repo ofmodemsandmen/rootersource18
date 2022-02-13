@@ -138,11 +138,12 @@ CONFIG_TARGET_ar71xx_generic=y
 # CONFIG_TARGET_ar71xx_generic_DEVICE_gl-ar300 is not set
 # CONFIG_TARGET_ar71xx_generic_DEVICE_gl-ar300m is not set
 # CONFIG_TARGET_ar71xx_generic_DEVICE_gl-ar750 is not set
+# CONFIG_TARGET_ar71xx_generic_DEVICE_gl-ar750s is not set
 # CONFIG_TARGET_ar71xx_generic_DEVICE_gl-mifi is not set
 # CONFIG_TARGET_ar71xx_generic_DEVICE_gl-usb150 is not set
 # CONFIG_TARGET_ar71xx_generic_DEVICE_minibox-v1 is not set
 # CONFIG_TARGET_ar71xx_generic_DEVICE_oolite-v1 is not set
-CONFIG_TARGET_ar71xx_generic_DEVICE_oolite-v5.2=y
+# CONFIG_TARGET_ar71xx_generic_DEVICE_oolite-v5.2 is not set
 # CONFIG_TARGET_ar71xx_generic_DEVICE_oolite-v5.2-dev is not set
 # CONFIG_TARGET_ar71xx_generic_DEVICE_lan-turtle is not set
 # CONFIG_TARGET_ar71xx_generic_DEVICE_packet-squirrel is not set
@@ -191,7 +192,7 @@ CONFIG_TARGET_ar71xx_generic_DEVICE_oolite-v5.2=y
 # CONFIG_TARGET_ar71xx_generic_DEVICE_qihoo-c301 is not set
 # CONFIG_TARGET_ar71xx_generic_DEVICE_AP143_16M is not set
 # CONFIG_TARGET_ar71xx_generic_DEVICE_AP143_8M is not set
-# CONFIG_TARGET_ar71xx_generic_DEVICE_AP147_010 is not set
+CONFIG_TARGET_ar71xx_generic_DEVICE_AP147_010=y
 # CONFIG_TARGET_ar71xx_generic_DEVICE_AP152_16M is not set
 # CONFIG_TARGET_ar71xx_generic_DEVICE_e1700ac-v2-16M is not set
 # CONFIG_TARGET_ar71xx_generic_DEVICE_e1700ac-v2-8M is not set
@@ -313,12 +314,11 @@ CONFIG_HAS_SUBTARGETS=y
 CONFIG_HAS_DEVICES=y
 CONFIG_TARGET_BOARD="ar71xx"
 CONFIG_TARGET_SUBTARGET="generic"
-CONFIG_TARGET_PROFILE="DEVICE_oolite-v5.2"
+CONFIG_TARGET_PROFILE="DEVICE_AP147_010"
 CONFIG_TARGET_ARCH_PACKAGES="mips_24kc"
 CONFIG_DEFAULT_TARGET_OPTIMIZATION="-Os -pipe -mno-branch-likely -mips32r2 -mtune=24kc"
 CONFIG_CPU_TYPE="24kc"
 CONFIG_LINUX_4_9=y
-CONFIG_DEFAULT_ath10k-firmware-qca9887=y
 CONFIG_DEFAULT_base-files=y
 CONFIG_DEFAULT_busybox=y
 CONFIG_DEFAULT_dnsmasq=y
@@ -328,10 +328,10 @@ CONFIG_DEFAULT_fstools=y
 CONFIG_DEFAULT_ip6tables=y
 CONFIG_DEFAULT_iptables=y
 CONFIG_DEFAULT_iwinfo=y
-CONFIG_DEFAULT_kmod-ath10k=y
 CONFIG_DEFAULT_kmod-ath9k=y
 CONFIG_DEFAULT_kmod-gpio-button-hotplug=y
 CONFIG_DEFAULT_kmod-usb-core=y
+CONFIG_DEFAULT_kmod-usb-storage=y
 CONFIG_DEFAULT_kmod-usb2=y
 CONFIG_DEFAULT_libc=y
 CONFIG_DEFAULT_libgcc=y
@@ -1606,7 +1606,7 @@ CONFIG_PACKAGE_libgcc=y
 # CONFIG_PACKAGE_libgomp is not set
 CONFIG_PACKAGE_libpthread=y
 # CONFIG_PACKAGE_librt is not set
-CONFIG_PACKAGE_libstdcpp=y
+# CONFIG_PACKAGE_libstdcpp is not set
 CONFIG_PACKAGE_logd=y
 CONFIG_PACKAGE_mtd=y
 CONFIG_PACKAGE_netifd=y
@@ -1720,7 +1720,7 @@ CONFIG_PACKAGE_usign=y
 # CONFIG_PACKAGE_ath10k-firmware-qca4019-ct is not set
 # CONFIG_PACKAGE_ath10k-firmware-qca4019-ct-htt is not set
 # CONFIG_PACKAGE_ath10k-firmware-qca6174 is not set
-CONFIG_PACKAGE_ath10k-firmware-qca9887=y
+# CONFIG_PACKAGE_ath10k-firmware-qca9887 is not set
 # CONFIG_PACKAGE_ath10k-firmware-qca9887-ct is not set
 # CONFIG_PACKAGE_ath10k-firmware-qca9887-ct-htt is not set
 # CONFIG_PACKAGE_ath10k-firmware-qca9888 is not set
@@ -1846,7 +1846,7 @@ CONFIG_PACKAGE_wireless-regdb=y
 # CONFIG_PACKAGE_kmod-md-mod is not set
 # CONFIG_PACKAGE_kmod-nbd is not set
 # CONFIG_PACKAGE_kmod-scsi-cdrom is not set
-# CONFIG_PACKAGE_kmod-scsi-core is not set
+CONFIG_PACKAGE_kmod-scsi-core=y
 # CONFIG_PACKAGE_kmod-scsi-generic is not set
 # CONFIG_PACKAGE_kmod-scsi-tape is not set
 
@@ -2219,7 +2219,7 @@ CONFIG_PACKAGE_kmod-slhc=y
 # CONFIG_PACKAGE_kmod-slip is not set
 # CONFIG_PACKAGE_kmod-tcp-bbr is not set
 # CONFIG_PACKAGE_kmod-trelay is not set
-CONFIG_PACKAGE_kmod-tun=y
+# CONFIG_PACKAGE_kmod-tun is not set
 # CONFIG_PACKAGE_kmod-veth is not set
 # CONFIG_PACKAGE_kmod-vxlan is not set
 # CONFIG_PACKAGE_kmod-wireguard is not set
@@ -2327,7 +2327,7 @@ CONFIG_PACKAGE_kmod-usb-ehci=y
 # CONFIG_PACKAGE_kmod-usb-ohci-pci is not set
 # CONFIG_PACKAGE_kmod-usb-printer is not set
 # CONFIG_PACKAGE_kmod-usb-serial is not set
-# CONFIG_PACKAGE_kmod-usb-storage is not set
+CONFIG_PACKAGE_kmod-usb-storage=y
 # CONFIG_PACKAGE_kmod-usb-storage-extras is not set
 # CONFIG_PACKAGE_kmod-usb-storage-uas is not set
 # CONFIG_PACKAGE_kmod-usb-uhci is not set
@@ -3192,7 +3192,7 @@ CONFIG_PACKAGE_liblucihttp-lua=y
 # CONFIG_PACKAGE_libmicrohttpd is not set
 # CONFIG_PACKAGE_libmicrohttpd-no-ssl is not set
 # CONFIG_PACKAGE_libmilter-sendmail is not set
-CONFIG_PACKAGE_libminiupnpc=y
+# CONFIG_PACKAGE_libminiupnpc is not set
 # CONFIG_PACKAGE_libmms is not set
 # CONFIG_PACKAGE_libmnl is not set
 # CONFIG_PACKAGE_libmodbus is not set
@@ -3203,7 +3203,7 @@ CONFIG_PACKAGE_libminiupnpc=y
 # CONFIG_PACKAGE_libmpeg2 is not set
 # CONFIG_PACKAGE_libmpg123 is not set
 # CONFIG_PACKAGE_libmraa is not set
-CONFIG_PACKAGE_libnatpmp=y
+# CONFIG_PACKAGE_libnatpmp is not set
 # CONFIG_PACKAGE_libncurses is not set
 # CONFIG_PACKAGE_libndpi is not set
 # CONFIG_PACKAGE_libneon is not set
@@ -4015,7 +4015,7 @@ CONFIG_OPENLDAP_DEBUG=y
 # CONFIG_PACKAGE_igmpproxy is not set
 # CONFIG_PACKAGE_ip-bridge is not set
 # CONFIG_PACKAGE_ip-full is not set
-CONFIG_PACKAGE_ip-tiny=y
+# CONFIG_PACKAGE_ip-tiny is not set
 # CONFIG_PACKAGE_lldpd is not set
 # CONFIG_PACKAGE_mcproxy is not set
 # CONFIG_PACKAGE_mwan3 is not set
@@ -4246,13 +4246,7 @@ CONFIG_PACKAGE_ip-tiny=y
 # CONFIG_PACKAGE_wireguard is not set
 # CONFIG_PACKAGE_wireguard-tools is not set
 # CONFIG_PACKAGE_xl2tpd is not set
-CONFIG_PACKAGE_zerotier=y
-
-#
-# Configuration
-#
-# CONFIG_ZEROTIER_ENABLE_DEBUG is not set
-# CONFIG_ZEROTIER_ENABLE_SELFTEST is not set
+# CONFIG_PACKAGE_zerotier is not set
 
 #
 # Version Control Systems
@@ -4611,7 +4605,7 @@ CONFIG_PACKAGE_wpad-mini=y
 # CONFIG_PACKAGE_ext-speedtest is not set
 # CONFIG_PACKAGE_ext-wireguard is not set
 # CONFIG_PACKAGE_ext-yamon3 is not set
-CONFIG_PACKAGE_ext-zerotier=y
+# CONFIG_PACKAGE_ext-zerotier is not set
 CONFIG_PACKAGE_pingtest=y
 # CONFIG_PACKAGE_qfirehose is not set
 # CONFIG_PACKAGE_qlog is not set
@@ -4637,7 +4631,7 @@ CONFIG_PACKAGE_pingtest=y
 # CONFIG_PACKAGE_rbm33g is not set
 CONFIG_PACKAGE_rd05a1=y
 # CONFIG_PACKAGE_rpi3bp is not set
-# CONFIG_PACKAGE_we826q is not set
+CONFIG_PACKAGE_we826q=y
 # CONFIG_PACKAGE_wg1608 is not set
 
 #
@@ -4659,6 +4653,7 @@ CONFIG_PACKAGE_rd05a1=y
 #
 # Wifi
 #
+# CONFIG_PACKAGE_ext-ltefix is not set
 # CONFIG_PACKAGE_ext-rooter-lite is not set
 # CONFIG_PACKAGE_ext-rooter16 is not set
 # CONFIG_PACKAGE_ext-rooter4 is not set
