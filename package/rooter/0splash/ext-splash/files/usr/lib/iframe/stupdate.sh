@@ -48,10 +48,11 @@ level2txt() {
 	
 	if [ $key = "single" ]; then
 		desc=""
+		tmp=$(echo "$tmp" | sed -e "s/-//g")
 		tmp=$(echo "$tmp" | sed -e "s/dBm//g")
 		tmp=$(echo "$tmp" | sed -e "s/dB//g")
-		if [ $3 != "1" ];then
-			tmp=$(echo "$tmp" | sed -e "s/-//g")
+		if [ $3 = "1" ];then
+			tmp="-"$tmp
 		fi
 		if [ $3 = "1" -o $3 = "0" ];then
 			desc="<br><i class='msDesc'>"."</i></br>"
@@ -250,11 +251,11 @@ if [ $splash = "1" ]; then
 		break
 	done < $mod
 	level2txt "$ROUTER" "single"
-	sed -i -e "s!#ROUTER#!$namev!g" $STEMP
+	sed -i -e "s!#ROUTER#!$ROUTER!g" $STEMP
 	level2txt "$modem" "single"
 	sed -i -e "s!#MODEM#!$namev!g" $STEMP
 	level2txt "$cops" "single"
-	namev=$(echo "$namev" | tr -d '&')
+	namev=$(echo "$namev" | tr "&" "+")
 	sed -i -e "s!#PROVIDER#!$namev!g" $STEMP
 	level2txt "$proto" "single"
 	sed -i -e "s!#PROTO#!$namev!g" $STEMP
@@ -308,7 +309,7 @@ if [ $splash = "1" ]; then
 		level2txt "$modem" "single"
 		sed -i -e "s!#MODEM#!$namev!g" $STEMP2
 		level2txt "$cops" "single"
-		namev=$(echo "$namev" | tr -d '&')
+		namev=$(echo "$namev" | tr "&" "+")
 		sed -i -e "s!#MODEMN#!$namev!g" $STEMP2
 		level2txt "$proto" "single"
 		sed -i -e "s!#PROTO#!$namev!g" $STEMP2
