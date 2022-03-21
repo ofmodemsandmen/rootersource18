@@ -224,7 +224,7 @@ if [ $SP -gt 0 ]; then
 	elif [ $SP -eq 4 ]; then
 		PORTN=2
 	elif [ $SP -eq 5 ]; then
-		PORTN=2
+		[ $idP = 6026 ] && PORTN=1 || PORTN=2
 	elif [ $SP -eq 6 ]; then
 		PORTN=2
 	elif [ $SP -eq 7 ]; then
@@ -354,9 +354,9 @@ ttl=$(uci -q get modem.modeminfo$CURRMODEM.ttl)
 if [ -z $ttl ]; then
 	ttl=0
 fi
-if [ $ttl -ne 0 ]; then
+#if [ $ttl -ne 0 ]; then
 	$ROOTER/connect/handlettl.sh $CURRMODEM "$ttl"
-fi
+#fi
 
 if [ $SP -eq 2 ]; then
 	get_connect
@@ -402,7 +402,7 @@ if [ $SP = 5 ]; then
 	get_connect
 	if [ -n "$NAPN" ]; then
 		$ROOTER/common/lockchk.sh $CURRMODEM
-		if [ idP = 6026 ]; then
+		if [ $idP = 6026 ]; then
 			IPN=1
 			case "$PDPT" in
 			"IPV6" )

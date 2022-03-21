@@ -24,11 +24,6 @@
 <%+header_login%>
 <%
 	local util = require "luci.util"
-	local uci = require "luci.model.uci".cursor()
-	logosize = uci:get("custom", "logo", "size")
-	if logosize == nil then
-		logosize = "small"
-	end
 	
 	function file_exists(name)
 		local f=io.open(name,"r")
@@ -55,7 +50,6 @@
 		line = file:read("*line")
 		line = line:gsub("<model>", model)
 		headername = headername .. line
-		line = file:read("*line")
 		line = file:read("*line")
 		linex = file:read("*line")
 		if linex ~= nil then
@@ -103,32 +97,7 @@
 	if bgcount > 0 then
 		currentBg =  bgs[math.random(1,bgcount)]
 	end
-	
-	iframe = uci:get("iframe", "login", "logframe")
-	if iframe == nil then
-		iframe = "0"
-	end
-	if iframe == "1" then
-		os.execute("/usr/lib/iframe/update.sh")
-		ifloc = uci:get("iframe", "login", "logtype")
-		ifimg = "/luci-static/img/" .. uci:get("iframe", "login", "logimage")
-		ifr = true
-	else
-		ifr = false
-	end
-
 %>
-<style type="text/css">
-body {
-  overflow: scroll; /* Show scrollbars */
-  
-  html {
-    height: 110%;
-    margin-bottom: 0.01em;
-	font-size: 1.1vw;
-	}
-}
-</style>
 <div class="login-page">
 	<% if (bgcount > 0 and currentBg.type == "mp4") then %>
 	<div class="video">
@@ -168,16 +137,10 @@ body {
 	></div>
 	
 	<% end %>
-	
 	<div class="login-container">
 		<div class="login-form">
-		<%if logosize == "small"  then%>
 			<a class="brand" href="/"><img src="/luci-static/img/open.png" class="icon"><span
 					class="brand-text"><%=striptags( (headername or "?") .. ( (node and node.title) and ' - ' .. translate(node.title) or '')) %></span></a>
-		<%else%>
-			<a class="brand" href="/"><img src="/luci-static/img/open.png" class="icon-lg"></a>
-		<% end %>
-			
 			<form class="form-login" method="post" action="<%=pcdata(luci.http.getenv("REQUEST_URI"))%>">
 
 				<%- if fuser then %>
@@ -198,40 +161,6 @@ body {
 					<input type="submit" value="<%:Login%>" class="cbi-button cbi-button-apply" />
 				</div>
 			</form>
-			
-			<%if ( ifr ) then%>
-				<%if ( ifloc == "3" ) then%>
-					<div class="login-iframe">
-						<div class="login-iform">
-						<a  class="ifframe"><iframe src="/luci-static/display.html"  id="Iframe" title="Iframe Example" width="100%" height="100%"</iframe></a>
-						</div>
-					</div>
-				<% else %>
-					<a class="brandim" href="/"><img src="<%=ifimg%>" class="icon-im"></a>
-				<% end %>
-			<% end %>
-
-			<script type="text/javascript">//<![CDATA[
-				// Selecting the iframe element
-				var frame = document.getElementById("Iframe");
-				  
-				// Adjusting the iframe height onload event
-				frame.onload = function()
-				// function execute while load the iframe
-				{
-				  // set the height of the iframe as 
-				  // the height of the iframe content
-				  frame.style.height = 
-				  frame.contentWindow.document.body.scrollHeight + 'px';
-				   
-		  
-				 // set the width of the iframe as the 
-				 // width of the iframe content
-				 frame.style.width  = 
-				  frame.contentWindow.document.body.scrollWidth+'px';
-					  
-				}
-			//]]></script>
 
 			<script type="text/javascript">//<![CDATA[
 				var input = document.getElementsByName('luci_password')[0];
@@ -250,7 +179,6 @@ body {
 			if https_port and fs.access(https_key) then
 				https_port = https_port:match("(%d+)$")
 			%>
-
 			<script type="text/javascript">//<![CDATA[
 				if (document.location.protocol != 'https:') {
 					var url = 'https://' + window.location.hostname + ':' + '<%=https_port%>' + window.location.pathname;
@@ -263,5 +191,4 @@ body {
 				}
 			//]]></script>
 			<% end %>
-
-
+<%+footer%>
