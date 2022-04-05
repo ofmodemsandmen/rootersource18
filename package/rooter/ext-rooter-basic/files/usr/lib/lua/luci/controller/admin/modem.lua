@@ -482,6 +482,15 @@ function action_get_csq()
 		rv["phonen"] = file:read("*line")
 		file:close()
 	end
+	
+	stat = "/tmp/simpin" .. modnum
+	file = io.open(stat, "r")
+	if file == nil then
+		rv["simerr"] = "0"
+	else
+		rv["simerr"] = "1"
+		file:close()
+	end
 
 	luci.http.prepare_content("application/json")
 	luci.http.write_json(rv)
@@ -515,7 +524,7 @@ end
 function action_externalip()
 	local rv ={}
 
-	os.execute("rm -f /tmp/ipip; wget -ssl --no-check-certificate -O /tmp/ipip https://ipecho.net/plain > /dev/null 2>&1")
+	os.execute("rm -f /tmp/ipip; wget -ssl -O /tmp/ipip http://ipecho.net/plain > /dev/null 2>&1")
 	file = io.open("/tmp/ipip", "r")
 	if file == nil then
 		rv["extip"] = "Not Available"
