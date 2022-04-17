@@ -3,14 +3,18 @@
 
 module("luci.controller.wireguard", package.seeall)
 
+I18N = require "luci.i18n"
+translate = I18N.translate
+
 function index()
-  entry({"admin", "vpn", "wireguards"}, template("wireguard/wireguard"), _("--WireGuard Status"), 70)
+  entry({"admin", "vpn", "wireguards"}, template("wireguard/wireguard"), _(translate("--WireGuard Status")), 70)
   entry({"admin", "vpn", "wireguard"}, cbi("wireguard"), _("Wireguard"), 63)
   entry( {"admin", "vpn", "wireguard", "client"},    cbi("wireguard-client"),    nil ).leaf = true
   entry( {"admin", "vpn", "wireguard", "server"},    cbi("wireguard-server"),    nil ).leaf = true
   
   entry( {"admin", "vpn", "wireguard", "wupload"},   call("conf_upload"))
   entry( {"admin", "vpn", "generateconf"},   call("conf_gen"))
+  entry( {"admin", "vpn", "textconf"},   call("text_gen"))
 end
 
 function conf_upload()
@@ -51,4 +55,9 @@ end
 
 function conf_gen()
 	os.execute("/usr/lib/wireguard/create.sh")
+end
+
+function text_gen()
+	local set = luci.http.formvalue("set")
+	os.execute("/usr/lib/wireguard/text.sh " .. "\"" .. set .. "\"")
 end
