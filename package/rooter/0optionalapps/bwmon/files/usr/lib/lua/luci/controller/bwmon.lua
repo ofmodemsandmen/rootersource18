@@ -1,15 +1,21 @@
 module("luci.controller.bwmon", package.seeall) 
 
+I18N = require "luci.i18n"
+translate = I18N.translate
+
 function index()
 	local page
-	entry({"admin", "nlbw"}, firstchild(), "Bandwidth Monitor", 80).dependent=false
-	page = entry({"admin", "nlbw", "bwmon"}, template("bwmon/bwmon"), "ROOter Bandwidth Monitor", 70)
+	entry({"admin", "nlbw"}, firstchild(), translate("Bandwidth Monitor"), 80).dependent=false
+	page = entry({"admin", "nlbw", "bwmon"}, template("bwmon/bwmon"), translate("ROOter Bandwidth Monitor"), 70)
 	page.dependent = true
 	
 	entry({"admin", "nlbw", "check_bw"}, call("action_check_bw"))
 	entry({"admin", "nlbw", "change_bw"}, call("action_change_bw"))
 	entry({"admin", "nlbw", "change_roll"}, call("action_change_roll"))
 	entry({"admin", "nlbw", "change_enable"}, call("action_change_enable"))
+	entry({"admin", "nlbw", "change_bwenable"}, call("action_change_bwenable"))
+	entry({"admin", "nlbw", "change_backup"}, call("action_change_backup"))
+	entry({"admin", "nlbw", "change_external"}, call("action_change_external"))
 end
 
 function action_check_bw()
@@ -50,6 +56,9 @@ function action_check_bw()
 	rv['lock']  = luci.model.uci.cursor():get("custom", "bwallocate", "lock")
 	rv['rollover'] = luci.model.uci.cursor():get("custom", "bwallocate", "rollover")
 	rv['enabled'] = luci.model.uci.cursor():get("custom", "bwallocate", "enabled")
+	rv['bwenabled'] = luci.model.uci.cursor():get("bwmon", "general", "enabled")
+	rv['backup'] = luci.model.uci.cursor():get("bwmon", "general", "backup")
+	rv['external'] = luci.model.uci.cursor():get("bwmon", "general", "external")
 	
 	luci.http.prepare_content("application/json")
 	luci.http.write_json(rv)
@@ -70,5 +79,23 @@ end
 function action_change_enable()
 	local set = luci.http.formvalue("set")
 	os.execute("uci set custom.bwallocate.enabled=" .. set .. "; uci commit custom")
+	
+end
+
+function action_change_bwenable()
+	local set = luci.http.formvalue("set")
+	os.execute("/usr/lib/bwmon/change.sh " .. set)
+	
+end
+
+function action_change_backup()
+	local set = luci.http.formvalue("set")
+	os.execute("uci set bwmon.general.backup=" .. set .. "; uci commit bwmon")
+	
+end
+
+function action_change_external()
+	local set = luci.http.formvalue("set")
+	os.execute("/usr/lib/bwmon/external.sh " .. set)
 	
 end
