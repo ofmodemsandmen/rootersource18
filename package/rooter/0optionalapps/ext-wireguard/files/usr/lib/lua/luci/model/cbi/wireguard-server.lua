@@ -45,8 +45,8 @@ port.optional=false;
 port.default="51280";
 
 ul = s:option(ListValue, "udptunnel", "Enable UDP over TCP :");
-ul:value("0", "No")
-ul:value("1", "Yes")
+ul:value("0", translate("No"))
+ul:value("1", translate("Yes"))
 ul.default=0
 
 uport = s:option(Value, "udpport", translate("UDP over TCP Port :"), translate("Server Local TCP Port. Default is 54321")); 
@@ -62,13 +62,24 @@ pukey = s:option(DummyValue, "publickey", translate("Public Key :"), translate("
 pukey.optional=false;
 
 pl = s:option(ListValue, "usepre", "Use PreSharedKey :");
-pl:value("0", "No")
-pl:value("1", "Yes")
+pl:value("0", translate("No"))
+pl:value("1", translate("Yes"))
 pl.default=0
 
 prkey = s:option(DummyValue, "presharedkey", translate("PreShared Key :"), translate("PreShared Key sent to Client")); 
 prkey.optional=false;
 prkey:depends("usepre", "1")
+
+bl = s:option(ListValue, "auto", translate("Start on Boot :"));
+bl:value("0", translate("No"))
+bl:value("1", translate("Yes"))
+bl.default="0"
+
+xbl = s:option(ListValue, "forward", translate("All Traffic Through Tunnel :"));
+xbl:value("0", translate("No"))
+xbl:value("1", translate("Yes"))
+xbl.default="1"
+
 
 b3 = s:option(DummyValue, "blank", " ");
 
