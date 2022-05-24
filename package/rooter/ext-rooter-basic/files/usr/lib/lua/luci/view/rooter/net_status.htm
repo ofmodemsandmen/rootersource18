@@ -5,6 +5,10 @@ nosms = 1
 if not fs.stat("/etc/nosim") then
 	nosms = 0
 end
+havegps = 0
+if fs.stat("/etc/havegps") then
+	havegps = 1
+end
 -%>
 <style>g {color:grey; font-size:75%; vertical-align: super;}</style>
 <script type="text/javascript" src="<%=resource%>/xhr.js"></script>
@@ -48,6 +52,10 @@ end
 			document.getElementById('proto').innerHTML=rv.proto;
 			document.getElementById('pci').innerHTML=rv.pci;
 			document.getElementById('sinr').innerHTML=rv.sinr;
+			<% if havegps == 1 then %>
+			document.getElementById('lat').innerHTML=rv.lat;
+			document.getElementById('long').innerHTML=rv.long;
+			<% end %>
 
 			document.getElementById('crate').innerHTML=rv.crate;
 			if (phonenx == "")
@@ -71,14 +79,29 @@ end
 			}
 			
 			simerr = rv.simerr;
-			if (simerr == "1")
+			if (simerr == "0")
 			{
-				document.getElementById("simwarn").style.display="block";
-				document.getElementById("simsg").style.color = "red";
+				document.getElementById("simwarn").style.display="none";
 			}
 			else
 			{
-				document.getElementById("simwarn").style.display="none";
+				document.getElementById("simwarn").style.display="block";
+				document.getElementById("simsg").style.color = "red";
+				if (simerr == "1")
+				{
+					document.getElementById("simsg").innerHTML = "<%:SIM is locked with no SIM Pin entered in Profile!!%>";
+				}
+				else
+				{
+					if (simerr == "1")
+					{
+						document.getElementById("simsg").innerHTML = "<%:Incorrect Pin to Unlock SIM%>";
+					}
+					else
+					{
+						document.getElementById("simsg").innerHTML = "<%:SIM is Missing%>";
+					}
+				}
 			}
 
 			reslt=rv.result
@@ -108,7 +131,7 @@ end
 
 	function clear_data()
 	{
-		document.getElementById('port').innerHTML="Changing Port";
+		document.getElementById('port').innerHTML="<%:Changing Port%>";
 		document.getElementById('csq').innerHTML="-";
 		document.getElementById('per').innerHTML="-";
 		document.getElementById('rssi').innerHTML="-";
@@ -141,6 +164,10 @@ end
 		document.getElementById('iccid').innerHTML="-";
 		document.getElementById('lband').innerHTML="-";
 		document.getElementById('pci').innerHTML="-";
+		<% if havegps == 1 then %>
+		document.getElementById('lat').innerHTML="-";
+		document.getElementById('long').innerHTML="-";
+		<% end %>
 	}
 
 	function increase(btn)
@@ -285,10 +312,11 @@ end
 
 <fieldset class="cbi-section" id="simwarn" style="display:none;">
 	<legend><%:SIM WARNING%></legend>
-	<table width="550"  border="1">
+	<table width="550"  border="0">
 		<tr>
-    		<td width="60%"><div align="right" id="simsg" style="font-size:1.875em"><strong><%:SIM is locked with no SIM Pin entered in Profile!!%></strong></div></td>
-			<td width="40%"></td>
+			<td width="10%"></td>
+    		<td width="60%"><div align="left" id="simsg" style="font-size:1.875em"><strong></strong></div></td>
+			<td width="30%"></td>
 		</tr>
 	</table>
 	
@@ -483,6 +511,23 @@ end
 	</table>
 </fieldset>
 
+<% if havegps == 1 then %>
+<fieldset class="cbi-section" id="cbi-gps">
+	<legend><%:GPS Location%></legend>
+	<table width="550"  border="0">
+  	<tr>
+    		<td width="30%"><div align="right"><%:Latitude :%></div></td>
+    		<td><ul id="lat"></ul></td>
+    		<td width="1%">&nbsp;</td>
+  	</tr>
+  	<tr>
+    		<td><div align="right"><%:Longitude :%></div></td>
+    		<td><ul id="long"></ul></td>
+    		<td>&nbsp;</td>
+  	</tr>
+	</table>
+</fieldset>
+<% end %>
 <fieldset class="cbi-section" id="cbi-mode">
 	<legend><%:Refresh Rate%></legend>
 	<table width="550"  border="0">
