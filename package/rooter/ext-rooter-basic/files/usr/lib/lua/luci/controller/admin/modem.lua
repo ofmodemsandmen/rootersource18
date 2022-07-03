@@ -7,8 +7,12 @@ function index()
 	entry({"admin", "modem"}, firstchild(), translate("Modem"), 25).dependent=false
 	entry({"admin", "modem", "prof"}, cbi("rooter/profiles"), translate("Connection Profile"), 2)
 	entry({"admin", "modem", "nets"}, template("rooter/net_status"), translate("Network Status"), 30)
-	entry({"admin", "modem", "debug"}, template("rooter/debug"), translate("Debug Information"), 50)
-	entry({"admin", "modem", "cust"}, cbi("rooter/customize"), translate("Custom Modem Ports"), 55)
+	local multilock = uci:get("custom", "multiuser", "multi") or "0"
+	local rootlock = uci:get("custom", "multiuser", "root") or "0"
+	if (multilock == "0") or (multilock == "1" and rootlock == "1") then
+		entry({"admin", "modem", "debug"}, template("rooter/debug"), translate("Debug Information"), 50)
+		entry({"admin", "modem", "cust"}, cbi("rooter/customize"), translate("Custom Modem Ports"), 55)
+	end
 	entry({"admin", "modem", "log"}, template("rooter/log"), translate("Connection Log"), 60)
 	entry({"admin", "modem", "misc"}, template("rooter/misc"), translate("Miscellaneous"), 40)
 	
@@ -568,7 +572,7 @@ end
 function action_externalip()
 	local rv ={}
 
-	os.execute("rm -f /tmp/ipip; wget -O /tmp/ipip http://ipecho.net/plain > /dev/null 2>&1")
+	os.execute("rm -f /tmp/ipip; wget-ssl -O /tmp/ipip http://ipecho.net/plain > /dev/null 2>&1")
 	file = io.open("/tmp/ipip", "r")
 	if file == nil then
 		rv["extip"] = translate("Not Available")
