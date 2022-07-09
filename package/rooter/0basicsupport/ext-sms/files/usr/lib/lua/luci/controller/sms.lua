@@ -1,11 +1,18 @@
 module("luci.controller.sms", package.seeall)
 
+I18N = require "luci.i18n"
+translate = I18N.translate
+
 function index()
 	local fs = require "nixio.fs"
-	if not fs.stat("/etc/nosms") then
-		local page
-		page = entry({"admin", "modem", "sms"}, template("rooter/sms"), "SMS Messaging", 35)
-		page.dependent = true
+	local multilock = luci.model.uci.cursor():get("custom", "multiuser", "multi") or "0"
+	local rootlock = luci.model.uci.cursor():get("custom", "multiuser", "root") or "0"
+	if (multilock == "0") or (multilock == "1" and rootlock == "1") then
+		if not fs.stat("/etc/nosms") then
+			local page
+			page = entry({"admin", "modem", "sms"}, template("rooter/sms"), translate("SMS Messaging"), 35)
+			page.dependent = true
+		end
 	end
 
 	entry({"admin", "modem", "check_read"}, call("action_check_read"))
@@ -50,7 +57,7 @@ function action_send_sms()
 			k = k + 1
 		until k > 25 or file ~=nil
 		if file == nil then
-			status = 'Sending attempt timed out (fail)'
+			status = translate('Sending attempt timed out (fail)')
 		else
 			status = file:read("*line")
 			file:close()
