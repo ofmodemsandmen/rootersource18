@@ -41,8 +41,8 @@ function index()
 	entry({"admin", "system", "flashops", "restore"}, call("action_restore"))
 	entry({"admin", "system", "flashops", "sysupgrade"}, call("action_sysupgrade"))
 
-	entry({"admin", "system", "reboot"}, template("admin_system/reboot"), _("Reboot"), 90)
-	entry({"admin", "system", "reboot", "call"}, post("action_reboot"))
+	--entry({"admin", "system", "reboot"}, template("admin_system/reboot"), _("Reboot"), 90)
+	--entry({"admin", "system", "reboot", "call"}, post("action_reboot"))
 end
 
 function action_clock_status()
