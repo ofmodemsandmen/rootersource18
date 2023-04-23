@@ -22,7 +22,6 @@ define Package/mwan3
    DEPENDS:= \
      +ip \
      +ipset \
-     +iptables \
      +iptables-mod-conntrack-extra \
      +iptables-mod-ipopt \
      +jshn
