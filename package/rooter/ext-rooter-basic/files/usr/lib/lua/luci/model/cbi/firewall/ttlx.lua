@@ -1,14 +1,14 @@
 local utl = require "luci.util"
 local uci  = require "luci.model.uci".cursor()
 
-m = Map("ttl", "Firewall - Custom TTL Settings",
+m = Map("ttl", translate("Firewall - Custom TTL Settings"),
 	translate("Enable and use a custom TTL value with modems"))
 
 m.on_after_save = function(self)
 	--luci.sys.call("/usr/lib/custom/ttlx.sh &")
 end
 
-gw = m:section(TypedSection, "ttl", translate("Settings"))
+gw = m:section(TypedSection, translate("ttl"), translate("Settings"))
 gw.anonymous = true
 
 en = gw:option(Flag, "enabled", translate("Enabled :"), translate("Enable the use of custom TTL value")); 
@@ -24,6 +24,7 @@ val:value("64", "64")
 val:value("65", "65")
 val:value("66", "66")
 val:value("67", "67")
+val:value("88", "88")
 val:value("117", "117")
 val:value("0", "TTL-INC 1")
 
