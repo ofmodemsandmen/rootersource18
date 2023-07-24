@@ -17,6 +17,7 @@ function index()
 	entry({"admin", "nlbw", "change_backup"}, call("action_change_backup"))
 	entry({"admin", "nlbw", "change_external"}, call("action_change_external"))
 	entry({"admin", "nlbw", "change_bwwan"}, call("action_change_bwwan"))
+	entry({"admin", "nlbw", "change_usenable"}, call("action_change_usenable"))
 end
 
 function action_check_bw()
@@ -49,7 +50,7 @@ function action_check_bw()
 				end
 				rv['maclist'] = maclist
 			end
-		end
+			end
 		file:close()
 		os.execute("/usr/lib/bwmon/genline.sh")
 		file = io.open("/tmp/monlist", "r")
@@ -69,7 +70,19 @@ function action_check_bw()
 			rv['gendays'] = '0'
 		end
 	else
-		rv['days'] = 0
+		rv['days'] = "0"
+		rv['total'] = "--"
+		rv['ctotal'] = "--"
+		rv['totaldown'] = "--"
+		rv['ctotaldown'] = "--"
+		rv['totalup'] = "--"
+		rv['ctotalup'] = "--"
+		rv['ptotal'] = "--"
+		rv['cptotal'] = "--"
+		rv['atotal'] = "--"
+		rv['catotal'] = "--"
+		rv['password'] = "--"
+		rv['gendays'] = '0'
 	end
 	local multilock = luci.model.uci.cursor():get("custom", "multiuser", "multi") or "0"
 	local rootlock = luci.model.uci.cursor():get("custom", "multiuser", "root") or "0"
@@ -88,6 +101,7 @@ function action_check_bw()
 	rv['backup'] = luci.model.uci.cursor():get("bwmon", "general", "backup")
 	rv['external'] = luci.model.uci.cursor():get("bwmon", "general", "external")
 	rv['bwwan'] = luci.model.uci.cursor():get("bwmon", "bwwan", "wan")
+	rv['usenabled'] = luci.model.uci.cursor():get("nlbwmon", "nlbwmon", "enabled")
 	
 	luci.http.prepare_content("application/json")
 	luci.http.write_json(rv)
@@ -132,5 +146,11 @@ end
 function action_change_bwwan()
 	local set = luci.http.formvalue("set")
 	os.execute("uci set bwmon.bwwan.wan=" .. set .. "; uci commit bwmon")
+	
+end
+
+function action_change_usenable()
+	local set = luci.http.formvalue("set")
+	os.execute("/usr/lib/bwmon/usenable.sh " .. set)
 	
 end
