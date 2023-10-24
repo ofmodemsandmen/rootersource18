@@ -44,6 +44,7 @@ function index()
 	entry({"admin", "modem", "change_cell"}, call("action_change_cell"))
 	entry({"admin", "modem", "change_proto"}, call("action_change_proto"))
 	entry({"admin", "modem", "setpin"}, call("action_setpin"))
+	entry({"admin", "modem", "setrestart"}, call("action_setrestart"))
 end
 
 function trim(s)
@@ -164,6 +165,10 @@ function action_check_misc()
 				file:close()
 			end
 			
+			rv["mrestart"] = luci.model.uci.cursor():get("custom", "bandlock", "restart")
+			if rv["mrestart"] == nil then
+				rv["mrestart"] = "1"
+			end
 			rv["cenable"] = luci.model.uci.cursor():get("custom", "bandlock", "cenable" .. miscnum)
 			if rv["cenable"] == nil then
 				rv["cenable"] = "0"
@@ -482,10 +487,12 @@ function action_get_csq()
 		rv["rscp1"] = " (" .. rscp1 .. " dBm)"
 	end
 
-	if not nixio.fs.access("/etc/netspeed") then
-		rv["crate"] = translate("Fast (updated every 10 seconds)")
+	file = io.open("/etc/netspeed", "r")
+	if file == nil then
+		rv["crate"] = "60"
 	else
-		rv["crate"] = translate("Slow (updated every 60 seconds)")
+		rv["crate"] = file:read("*line")
+		file:close()
 	end
 
 	stat = "/tmp/msimdata" .. modnum
@@ -555,11 +562,7 @@ end
 
 function action_change_rate()
 	local set = luci.http.formvalue("set")
-	if set == "1" then
-		os.execute("rm -f /etc/netspeed")
-	else
-		os.execute("echo \"0\" > /etc/netspeed")
-	end
+	os.execute("echo \"" .. set .. "\" > /etc/netspeed")
 end
 
 function action_change_phone()
@@ -675,4 +678,10 @@ end
 function action_setpin()
 	local set = luci.http.formvalue("set")
 	os.execute("uci set modem.general.pin=" .. set .. "; uci commit modem")
+end
+
+
+function action_setrestart()
+	local set = luci.http.formvalue("set")
+	os.execute("uci set custom.bandlock.restart=" .. set .. "; uci commit custom")
 end
