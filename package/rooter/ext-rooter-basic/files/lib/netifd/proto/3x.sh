@@ -114,6 +114,7 @@ proto_3x_setup() {
 	MAN=$(uci get modem.modem$CURRMODEM.manuf)
 	MOD=$(uci get modem.modem$CURRMODEM.model)
 	$ROOTER/log/logger "Modem #$CURRMODEM Connected ($MAN $MOD)"
+	
 	PROT=$(uci get modem.modem$CURRMODEM.proto)
 	if [ $service = "umts" ]; then
 		ln -s $ROOTER/signal/modemsignal.sh $ROOTER_LINK/getsignal$CURRMODEM
@@ -125,6 +126,9 @@ proto_3x_setup() {
 	uci set modem.modem$CURRMODEM.connected=1
 	uci set modem.modem$CURRMODEM.interface="3x-"$interface
 	uci commit modem
+	if [ -e $ROOTER/modem-led.sh ]; then
+		$ROOTER/modem-led.sh $CURRMODEM 3
+	fi
 	CLB=$(uci get modem.modeminfo$CURRMODEM.lb)
 	if [ -e /etc/config/mwan3 ]; then
 		INTER=$(uci get modem.modeminfo$CURRMODEM.inter)
@@ -135,13 +139,15 @@ proto_3x_setup() {
 				INTER=$CURRMODEM
 			fi
 		fi
+		
 		if [ -e $ROOTER/timezone.sh ]; then
-			TZ=$(uci get modem.modeminfo$CURRMODEM.tzone)
-			if [ $TZ = "1" ]; then
+			TZ=$(uci -q get modem.modeminfo$CURRMODEM.tzone)
+			if [ "$TZ" = "1" ]; then
 				log "Set TimeZone"
 				$ROOTER/timezone.sh &
 			fi
 		fi
+	
 		ENB=$(uci get mwan3.wan$CURRMODEM.enabled)
 		if [ ! -z $ENB ]; then
 			if [ $CLB = "1" ]; then
