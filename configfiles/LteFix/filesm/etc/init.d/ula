@@ -1,0 +1,15 @@
+#!/bin/sh /etc/rc.common
+. /lib/functions.sh
+# Copyright (C) 2006 OpenWrt.org
+
+START=50
+
+log() {
+	logger -t "Ula Removal : " "$@"
+}
+
+start() {
+	uci set network.globals.ula_prefix=""
+	uci commeit network
+	/etc/init.d/network restart
+}

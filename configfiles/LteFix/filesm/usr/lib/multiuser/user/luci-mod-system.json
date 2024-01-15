@@ -1,0 +1,13 @@
+{
+	"admin/system/reboot": {
+		"title": "Reboot Router",
+		"order": 90,
+		"action": {
+			"type": "view",
+			"path": "system/reboot"
+		},
+		"depends": {
+			"acl": [ "luci-mod-system-reboot" ]
+		}
+	}
+}

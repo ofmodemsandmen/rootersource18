@@ -1,0 +1,144 @@
+{
+	"CLYIR5": {
+		"details": "Clyirfi NEXR5GO",
+		"type": "1",
+		"config": ".config_clyir5",
+		"image": "openwrt-ar71xx-generic-ap147-010-squashfs-sysupgrade.bin",
+		"imagepath": "/ar71xx/generic/",
+		"mod": "Clyirfi-NEXR5GO",
+		"ext": "-upgrade.bin",
+		"addons": ["readme.pdf"],
+		"zippassword": "clyirfi",
+		"custom": {
+			"wifi": {
+				"SSID2G": "Wireless Internet",
+				"SSID5G": "Wireless Internet",
+				"Password": "A1b2c3d4"
+			},
+			"image": {
+				"Material": "clyr.png",
+				"Argon": "clyr1.png",
+				"Tomato": "clyr1.png"
+			},
+			"name": {
+				"model": "WiFiX NEXR5GO",
+				"hostname": "Clyirfi"
+			},
+			"files": "/Clyirfi/files/"
+		}
+	},
+	"LTE6": {
+		"details": "WiFiX NEXQ6GO",
+		"type": "1",
+		"package": "ext-ltefix",
+		"config": ".config_lte6",
+		"image": "openwrt-ar71xx-generic-ap147-010-squashfs-sysupgrade.bin",
+		"imagepath": "/ar71xx/generic/",
+		"mod": "WiFiX-NEXQ6GO",
+		"ext": "-upgrade.bin",
+		"addons": ["readme.pdf"],
+		"zippassword": "richard",
+		"custom": {
+			"wifi": {
+				"SSID2G": "WiFiX 2G",
+				"SSID5G": "WiFiX 5G",
+				"Password": "12345678"
+			},
+			"image": {
+				"Material": "wifix.png",
+				"Argon": "wifix.png",
+				"Tomato": "wifix.png"
+			},
+			"name": {
+				"model": "WiFiX NEXQ6GO",
+				"hostname": "WiFiX"
+			},
+			"files": "/LteFix/files/"
+		}
+	},
+	"LTE5": {
+		"details": "WiFiX NEXR5GO",
+		"type": "1",
+		"package": "ext-ltefix",
+		"config": ".config_lte5",
+		"image": "openwrt-ar71xx-generic-ap147-010-squashfs-sysupgrade.bin",
+		"imagepath": "/ar71xx/generic/",
+		"mod": "WiFiX-NEXR5GO",
+		"ext": "-upgrade.bin",
+		"addons": ["readme.pdf"],
+		"zippassword": "richard",
+		"custom": {
+			"wifi": {
+				"SSID2G": "WiFiX",
+				"SSID5G": "WiFiX 5G",
+				"Password": "12345678"
+			},
+			"image": {
+				"Material": "wifix.png",
+				"Argon": "wifix.png",
+				"Tomato": "wifix.png"
+			},
+			"name": {
+				"model": "WiFiX NEXR5GO",
+				"hostname": "WiFiX"
+			},
+			"files": "/LteFix/files/"
+		}
+	},
+	"LTEM5": {
+		"details": "WiFiX NEXR5GO",
+		"type": "1",
+		"package": "ext-ltefix",
+		"config": ".config_ltem5",
+		"image": "openwrt-ar71xx-generic-ap147-010-squashfs-sysupgrade.bin",
+		"imagepath": "/ar71xx/generic/",
+		"mod": "WiFiX-NEXR5GO",
+		"ext": "-upgrade.bin",
+		"addons": ["readme.pdf"],
+		"custom": {
+			"wifi": {
+				"SSID2G": "WiFiX",
+				"SSID5G": "WiFiX 5G",
+				"Password": "12345678"
+			},
+			"image": {
+				"Material": "wifix.png",
+				"Argon": "wifix.png",
+				"Tomato": "wifix.png"
+			},
+			"name": {
+				"model": "WiFiX NEXR5GO",
+				"hostname": "WiFiX"
+			},
+			"files": "/LteFix/filesm/"
+		}
+	},
+	"SKY5": {
+		"details": "SkyNet NEXR5GO",
+		"type": "1",
+		"package": "ext-sky",
+		"config": ".config_sky5",
+		"image": "openwrt-ar71xx-generic-ap147-010-squashfs-sysupgrade.bin",
+		"imagepath": "/ar71xx/generic/",
+		"mod": "SkyNet-NEXR5GO",
+		"ext": "-upgrade.bin",
+		"addons": ["readme.pdf"],
+		"custom": {
+			"wifi": {
+				"SSID2G": "SkyNet 2G",
+				"SSID5G": "SkyNet 5G",
+				"Password": "12345678"
+			},
+			"image": {
+				"Material": "skynet.png",
+				"Argon": "skynet.png",
+				"Tomato": "skynet.png"
+			},
+			"name": {
+				"model": "SkyNet NEXR5GO",
+				"hostname": "SkyNet"
+			},
+			"files": "/Skynet/files/"
+		}
+	}
+}

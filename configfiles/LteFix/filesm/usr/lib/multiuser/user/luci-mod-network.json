@@ -1,0 +1,9 @@
+{
+	"admin/network/remote_addr/*": {
+		"action": {
+			"type": "call",
+			"module": "luci.controller.admin.network",
+			"function": "remote_addr"
+		}
+	}
+}
