@@ -22,7 +22,7 @@ define Package/ext-rooter-lite
 		+luci-app-samba +usb-storage \
 		+ext-p910nd +luci-app-sqm +kmod-sched-cake +luci-app-nft-qos \
 		+ext-command +ext-speedtest +luci-app-guestwifi \
-		+openvpn-easy-rsa +openvpn-openssl \
+		+openvpn-easy-rsa +openvpn-openssl +xxd \
 		+ext-extra +luci-app-hotspot +luci-app-wol \
 		+usbmuxd +libusbmuxd-utils +libimobiledevice-utils +kmod-usb-net-ipheth \
 		+nano +picocom +wpad +wget +qfirehose +luci-app-vpnbypass +ethtool
