@@ -46,7 +46,7 @@
  static const struct usb_device_id products[] = {
  	/* 1. CDC ECM like devices match on the control interface */
  	{	/* Huawei E392, E398 and possibly others sharing both device id and more... */
-@@ -673,9 +693,17 @@
+@@ -673,9 +693,18 @@
  		.driver_info = (unsigned long)&qmi_wwan_info,
  	},
  
@@ -56,6 +56,7 @@
 +    {QMI_QUIRK_QUECTEL_DYNCFG(0x2c7c, 0x0620)}, /* Quectel EM20 */
 +	 {QMI_MATCH_FF_FF_FF(0x2c7c, 0x0800)},	/* Quectel RM500Q-GL */
 +	{QMI_MATCH_FF_FF_FF(0x2c7c, 0x030b)},	/* Quectel EM060 */
++	{QMI_MATCH_FF_FF_FF(0x2c7c, 0x0122)},	/* Quectel RM550 */
 +
  	/* 3. Combined interface devices matching on interface number */
  	{QMI_FIXED_INTF(0x0408, 0xea42, 4)},	/* Yota / Megafon M100-1 */

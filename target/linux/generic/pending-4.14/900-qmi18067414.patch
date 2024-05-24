@@ -1,6 +1,6 @@
 --- a/drivers/net/usb/qmi_wwan.c
 +++ b/drivers/net/usb/qmi_wwan.c
-@@ -999,10 +999,19 @@
+@@ -999,10 +999,20 @@
 +#define QMI_MATCH_FF_FF_FF(vend, prod) \
 +	USB_DEVICE_AND_INTERFACE_INFO(vend, prod, USB_CLASS_VENDOR_SPEC, \
 +				      USB_SUBCLASS_VENDOR_SPEC, 0xff), \
@@ -12,6 +12,7 @@
 +	{QMI_QUIRK_QUECTEL_DYNCFG(0x2c7c, 0x0620)},	/* Quectel EM20 */
 +	{QMI_MATCH_FF_FF_FF(0x2c7c, 0x0800)},	/* Quectel RM500Q-GL */
 +	{QMI_MATCH_FF_FF_FF(0x2c7c, 0x030b)},	/* Quectel EM060 */
++	{QMI_MATCH_FF_FF_FF(0x2c7c, 0x0122)},	/* Quectel RM550 */
  
  	/* 3. Combined interface devices matching on interface number */
  	{QMI_FIXED_INTF(0x0408, 0xea42, 4)},	/* Yota / Megafon M100-1 */
