@@ -39,7 +39,10 @@ adb_cnt=""
 adb_rc=0
 adb_action="${1:-"start"}"
 adb_pidfile="/var/run/adblock.pid"
-
+if [ -e /usr/lib/domain/filter.sh ]; then
+	/usr/lib/domain/filter.sh
+	/usr/lib/domain/clear.sh
+fi
 # load adblock environment
 #
 f_envload()

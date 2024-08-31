@@ -1,0 +1,12 @@
+#!/bin/sh /etc/rc.common
+
+START=91
+
+log() {
+	logger -t "Domain Filter " "$@"
+}
+
+start()
+{
+	#log "Start Domain"
+}

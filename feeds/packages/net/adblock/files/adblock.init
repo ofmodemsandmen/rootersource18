@@ -13,7 +13,9 @@ EXTRA_HELP="	suspend	Suspend adblock processing
 adb_init="/etc/init.d/adblock"
 adb_script="/usr/bin/adblock.sh"
 adb_pidfile="/var/run/adblock.pid"
-
+if [ -e /usr/lib/domain/clear.sh ]; then
+	/usr/lib/domain/clear.sh
+fi
 boot()
 {
 	adb_boot=1
