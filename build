@@ -3,7 +3,7 @@
 DATE=$(date +%Y-%m-%d)
 routersjson="./router-1806.json"
 templatefolder="template/"
-customfolder="custom/"
+customfolder="router-customs/"
 	
 buldimage() {
 	image=$1
